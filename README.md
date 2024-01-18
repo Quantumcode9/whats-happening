@@ -27,8 +27,14 @@ Other users can search for events they want to go to.
 Brian
 
 ## ERD
+```
+User  ---< Event: A User can have many Events; an Event belongs to one User.
+Venue ---< Event: A Venue can have many Events; an Event belongs to one Venue.
+Event --o< Photo: An Event can have many Photos; a Photo belongs to one Event.
+Event >--< Attendee: An Event can have many Attendees; an Attendee can have many Events.
+```
+<img width="600" alt="image" src="https://github.com/BeccaK8/whats-happening/assets/150313386/53e55f6a-5a04-485f-8b0d-27efae85a115">
 
-Becca
 
 ## Icebox
 
