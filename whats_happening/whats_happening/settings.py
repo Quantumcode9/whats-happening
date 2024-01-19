@@ -75,21 +75,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'whats_happening.wsgi.application'
 
-
+# VSCEZOyKn1u4
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 
 DATABASES = {
-  'default': {
-    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': os.getenv('DBNAME'),
-    'USER': 'joshbuckley',
-    'PASSWORD': 'SLRbJnDw0tZ4',
-    'HOST': os.getenv('DBHOST'),
-    'PORT': os.getenv('DBPORT'),
-    'OPTIONS': {'sslmode': 'require'},
-  }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'neondb',
+        'USER': 'rebeccakiefer8',
+        'PASSWORD': 'VSCEZOyKn1u4',
+        'HOST': 'ep-little-glade-a5u13whp.us-east-2.aws.neon.tech',
+        'PORT': '5432',
+    }
 }
 
 
@@ -128,6 +127,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
