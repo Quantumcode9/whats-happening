@@ -32,7 +32,7 @@ class Event(models.Model):
         return self.name
     
     
-    
+
 # class Reservation(models.Model):
 #     name = models.CharField(max_length=100)
 #     guests = models.IntegerField()

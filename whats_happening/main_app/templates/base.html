@@ -24,16 +24,17 @@
                         <!-- changes below -->
                         <li><a href="{% url 'home' %}">About</a></li>
                         {% if user.is_authenticated %}
-                        <li>
-                        <form method="post" action="{% url 'logout' %}">
-                            {% csrf_token %}
-                            <button class="btn-flat white-text" type="submit">Log Out</button>
-                        </form>
-                         </li>
+                            <li><a href="{% url 'index' %}">Events</a></li>
+                            <li>
+                                <form method="post" action="{% url 'logout' %}">
+                                    {% csrf_token %}
+                                    <button class="btn-flat white-text" type="submit">Log Out</button>
+                                </form>
+                            </li>
                         {% else %}
-                        <!-- New Sign Up link -->
-                        <li><a href="{% url 'signup' %}">Sign Up</a></li>
-                        <li><a href="{% url 'login' %}">Log In</a></li>
+                            <!-- New Sign Up link -->
+                            <li><a href="{% url 'signup' %}">Sign Up</a></li>
+                            <li><a href="{% url 'login' %}">Log In</a></li>
                         {% endif %}
                 </ul>
             </div>

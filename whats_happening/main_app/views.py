@@ -2,9 +2,20 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 
+from django.views.generic import ListView
+
+from .models import Event, Venue
+
 # Create your views here.
 def home(request):
     return render(request, 'home.html')
+
+
+## Event Views
+class EventList(ListView):
+  model = Event
+  template_name = 'events/index.html'
+
 
 def signup(request):
   error_message = ''
