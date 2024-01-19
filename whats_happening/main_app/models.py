@@ -5,13 +5,13 @@ from django.db import models
 class Event(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(max_length=250)
-    venue = models.ForeignKey('Venue', on_delete=models.CASCADE)
-    owner = models.ForeignKey('User', on_delete=models.CASCADE)
+  #  venue = models.ForeignKey('Venue', on_delete=models.CASCADE)
+   # owner = models.ForeignKey('User', on_delete=models.CASCADE)
     date = models.DateField()
     time = models.TimeField()
     end_time = models.TimeField()
     recurring = models.BooleanField(default=False)
-    reservations = models.ManyToManyField('Reservation', blank=True)
+   # reservations = models.ManyToManyField('Reservation', blank=True)
     # recurrences = models.ForeignKey('Recurrences', on_delete=models.CASCADE, null=True, blank=True)
     # image = models.ImageField(upload_to='images/', blank=True)
     
