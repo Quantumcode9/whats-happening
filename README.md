@@ -14,9 +14,8 @@ An event planner for everyone!
   - As an event owner, I want to edit my event. 
   - As an event owner, I want to cancel (delete) my event. 
   - As an event owner, I want to upload photos to showcase my event.
-  - As an event owner, I want to invite other people to my event.
   - As a user, I want to view upcoming events.
-  - As a user, I want to save an event for their upcoming events.
+  - As a user, I want to make a reservation for an event for their upcoming events.
   - As a user, I want to search for events by date.
   - As a user, I want to search for events by venue.
   - As a user, I want to search for events by name.
@@ -31,13 +30,8 @@ An event planner for everyone!
 
 
 ## ERD
-```
-User  ---< Event: A User can have many Events; an Event belongs to one User.
-Venue ---< Event: A Venue can have many Events; an Event belongs to one Venue.
-Event --o< Photo: An Event can have many Photos; a Photo belongs to one Event.
-Event >--< Attendee: An Event can have many Attendees; an Attendee can have many Events.
-```
-<img width="600" alt="image" src="https://github.com/BeccaK8/whats-happening/assets/150313386/53e55f6a-5a04-485f-8b0d-27efae85a115">
+
+<img width="600" alt="image" src="readme/erd/erd.png">
 
 
 ## Technologies Used
@@ -53,3 +47,4 @@ Event >--< Attendee: An Event can have many Attendees; an Attendee can have many
   - As a user, I want the ability to add a venue.
   - As a user, I want to create my own recurring event.
   - As an event owner, I want to create new recurrences of my event.
+  - As an event owner, I want to invite other people to my event.
