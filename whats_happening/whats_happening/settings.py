@@ -70,14 +70,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'whats_happening.wsgi.application'
 
-
+# VSCEZOyKn1u4
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'neondb',
+        'USER': 'rebeccakiefer8',
+        'PASSWORD': 'VSCEZOyKn1u4',
+        'HOST': 'ep-little-glade-a5u13whp.us-east-2.aws.neon.tech',
+        'PORT': '5432',
     }
 }
 
