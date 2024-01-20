@@ -1,0 +1,135 @@
+/* comment all changes made in here*/
+
+/* Comment this out if your having trouble seeing text outside containers  */
+body {
+background-color: #2d2d2d;
+color : #fff;
+}
+
+/* NAV & FOOTER */
+nav {
+    background-color: #9d45c3;
+    color: #fff;
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+}
+nav a {
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: 300;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.page-footer {
+    background-color: #9d45c3;
+    color: #fff;
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+.page-footer a {
+    display: inline-block;
+    margin: 10px;
+    color: inherit; 
+}
+
+.page-footer a i {
+    font-size: 2em; 
+    display: block; 
+}
+
+.page-footer a span {
+    font-size: 0.8em; 
+    display: block; 
+}
+
+/* CONTAINERS */
+.container {
+margin: 0 auto;
+padding: 0 20px;
+box-sizing: border-box;
+max-width: 600px;
+background-color: white;
+color: #2d2d2d;
+border-radius: 10px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+overflow: hidden;
+text-align: center;
+margin-bottom: 15px;
+margin-top: 15px;
+}
+
+/* TEXT */
+h1 {
+font-family: 'Roboto', sans-serif;
+font-weight: 300;
+font-size: 40px;
+margin: 0;
+}
+
+p {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    margin: 0;
+    }
+
+
+
+/* CARDS */
+
+
+/* BUTTONS */
+
+
+/* FORMS */
+
+
+/* IMAGES */
+
+
+/* MEDIA QUERIES */
+
+/* Footer Navbar Mobile Screens */
+@media screen and (max-width: 600px) {
+    .page-footer a {
+        display: inline-block; 
+        text-align: space-between; 
+    }
+   .navbar-fixed a {
+        display: none; 
+    }  
+}
+
+/* For Larger Screens */
+@media screen and (min-width: 601px) {
+    .page-footer a {
+        display: none; 
+    }
+    .navbar-fixed a {
+        display: inline-block;
+    } 
+}
+
+/* text for Mobile Screens */
+@media screen and (max-width: 600px) {
+    h1 {
+        font-size: 30px;
+    }   
+    p {
+        font-size: 16px;
+    }
+}
+
+
+/* MISCELLANEOUS */
+
+
+
+
