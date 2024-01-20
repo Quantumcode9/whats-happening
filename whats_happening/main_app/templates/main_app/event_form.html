@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if object %}
+<h1> Edit {{object.name}}</h1>
+{% else %}
+<h1>Add an Event</h1>
+{% endif %}
+<div class="container2">
+    <form action="" method = "POST">
+    {% csrf_token %}
+        <table>
+        {{form.as_table}}  
+        </table>
+            <div class="center-align">
+        <input type="submit" value="Submit!" class="btn">
+            </div>
+    </form>
+</div>
+
+<script>
+    // this is  js for the datepicker aka Calendar
+    const dateEl = document.getElementById('id_date')
+    // M is materialize's global variable
+    M.Datepicker.init(dateEl, {
+        format: 'yyyy-mm-dd',
+        defaultDate: new Date(),
+        setDefaultDate: true,
+        autoClose: true
+    })
+    // this is js for the timepicker aka Clock
+    const startTimeEl = document.getElementById('id_time');
+    const endTimeEl = document.getElementById('id_end_time');
+    M.Timepicker.init(startTimeEl, {
+        autoClose: true
+    });
+    // leaving end time here for now
+    M.Timepicker.init(endTimeEl, {
+        autoClose: true
+    });
+
+
+</script>
+{% endblock %}
+
+
+
+
