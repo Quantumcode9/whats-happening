@@ -33,8 +33,11 @@ class Event(models.Model):
     def __str__(self):
         return self.name
     
+    class Meta:
+        ordering = ['date']
     
     
+
 # class Reservation(models.Model):
 #     name = models.CharField(max_length=100)
 #     guests = models.IntegerField()
