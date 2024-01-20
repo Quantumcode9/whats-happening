@@ -1,16 +1,38 @@
 {% extends 'base.html' %}
 {% block content %}
 
-    <h1>Event List</h1>
+    {% if page_title %}
+        <h1>{{ page_title}}</h1>
+    {% else %}
+        <h1>Event List</h1>
+    {% endif %}
 
-    {% for event in object_list %}
-        <div class="card">
-            <a href="">
-                <div class="card-content">
-                    <span class="card-title">{{ event.name }}</span>
+    <div class="row">
+        <div class="col s12 m6">
+            {% for event in object_list %}
+                <div class="card">
+                    <a href="">
+                
+                        <div class="card-content black-text">
+                            <span class="card-title black-text">{{ event.name }}</span>
+                            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">go</i></a>
+                            <p>
+                                {{ event.date }} at {{ event.time }} 
+                                {% if event.end_time %}
+                                - {{ event.end_time }}
+                                {% endif %}
+                            </p>
+                            {% if event.venue %}
+                                <p>Venue: {{ event.venue }}</p>
+                            {% endif %}
+                            <p>{{ event.owner }}</p>
+                        </div>
+                    </a>
                 </div>
-            </a>
+            {% empty %}
+                <div class="card-panel red-text center-align">No Events Found</div>
+            {% endfor %}
         </div>
-    {% endfor %}
+    </div>
 
 {% endblock %}
