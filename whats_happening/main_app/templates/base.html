@@ -26,7 +26,8 @@
                         <li><a href="{% url 'about' %}">About</a></li>
                         <li><a href="{% url 'events_create' %}">Add Event</a></li>
                         {% if user.is_authenticated %}
-                            <li><a href="{% url 'index' %}">Events</a></li>
+                            <li><a href="{% url 'index' %}">All Events</a></li>
+                            <li><a href="{% url 'search' %}">Search Events</a></li>
                             <li><a href="{% url 'myownedindex' %}">My Events</a></li>
                             <li>
                                 <form method="post" action="{% url 'logout' %}">
@@ -51,6 +52,9 @@
     <footer class="page-footer">
             <a href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a>
             <a href="{% url 'about' %}"><i class="fas fa-info-circle"></i> About</a>
+            <a href="{% url 'index' %}">All Events</a>
+            <a href="{% url 'search' %}">Search Events</a>
+            <a href="{% url 'myownedindex' %}">My Events</a>
             <a href="{% url 'events_create' %}"><i class="fas fa-calendar-plus"></i> Add Event</a>
         <div class="right">
             All Rights Reserved, &copy; 2024 What's Happening &nbsp;
