@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h1>Search Events</h1>
+    <div class="container2">
+
+        <form action="{% url 'search_results' %}" method="get">
+            <label for="event_name">Event Name:</label>
+            <input name="event_name" type="text">
+            <label for="event_name">Venue:</label>
+            <input name="venue" type="text">
+
+            <button type="submit" class="btn">Search</button>
+        </form>
+        <br>
+    </div>
+
+    <script>
+        // this is  js for the datepicker aka Calendar
+        const startDateEl = document.getElementById('start_date')
+        const endDateEl = document.getElementById('end_date')
+        // M is materialize's global variable
+        M.Datepicker.init(startDateEl, {
+            format: 'yyyy-mm-dd',
+            defaultDate: new Date(),
+            setDefaultDate: true,
+            autoClose: true
+        })
+
+        M.Datepicker.init(endDateEl, {
+            format: 'yyyy-mm-dd',
+            defaultDate: new Date(),
+            setDefaultDate: true,
+            autoClose: true
+        })
+    
+    </script>
+{% endblock %}

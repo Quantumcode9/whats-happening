@@ -6,6 +6,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
+from django.db.models import Q
+
 from .models import Event
 
 
@@ -25,6 +27,8 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
+def event_search(request):
+    return render(request, 'events/search.html')
 
 ## Event Views
 class EventList(ListView):
@@ -41,6 +45,7 @@ class MyOwnedEventList(EventList):
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
     context['page_title'] = 'My Owned Events'
+    context['showhide_past_option'] = True
     context['include_past'] = False
     return context
   
@@ -50,9 +55,32 @@ class MyOwnedWithPastEventList(MyOwnedEventList):
   
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
+    context['showhide_past_option'] = True
     context['include_past'] = True
     return context
 
+class SearchResultsList(EventList):
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context['page_title'] = 'Search Results'
+    return context
+  
+  def get_queryset(self):
+    q_objects = Q()
+
+    # Search by event_name
+    event_name = self.request.GET.get("event_name")
+    if event_name:
+      print('adding event_name to query')
+      q_objects &= Q(name__icontains=event_name)
+    
+    # Search by venue
+    venue = self.request.GET.get("venue")
+    if venue:
+      q_objects &= Q(venue__name__icontains=venue)
+
+    # Always filter out past events
+    return Event.objects.filter(q_objects, date__gte=datetime.date.today())
 
 def signup(request):
   error_message = ''
