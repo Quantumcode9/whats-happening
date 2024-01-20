@@ -15,7 +15,16 @@ def home(request):
 class EventList(ListView):
   model = Event
   template_name = 'events/index.html'
+  
+class MyOwnedEventList(EventList):
+  def get_queryset(self):
+    print(f"self.request.user = {self.request.user}")
+    return Event.objects.filter(owner=self.request.user)
 
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context['page_title'] = 'My Owned Events'
+    return context
 
 def signup(request):
   error_message = ''
