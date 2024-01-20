@@ -7,15 +7,25 @@
         <h1>Event List</h1>
     {% endif %}
 
-    <div class="row">
-         <!-- <div class="col s12 m6">  -->
-            {% for event in object_list %}
+    {% if showhide_past_option %}
+        {% if include_past %}
+            <a href="{% url 'myownedindex' %}">Hide Past Events</a>
+        {% else %}
+            <a href="{% url 'myownedindex_withpast' %}">Show Past Events</a>
+        {% endif %}
+    {% endif %}
+
+    <div class="container2">
+
+        <div class="row">
+            <div class="col">
+                {% for event in object_list %}
                 <div class="card">
                     <a href="">
-                
+                        
                         <div class="card-content black-text">
                             <span class="card-title black-text">{{ event.name }}</span>
-                            <a class="btn-floating halfway-fab waves-effect waves-light red top-right-fab"><i class="material-icons">go</i></a>
+                            <a class="btn-floating halfway-fab waves-effect waves-light purple lighten-3"><i class="material-icons">go</i></a>
                             <p>
                                 {{ event.date }} at {{ event.time }} 
                                 {% if event.end_time %}
@@ -23,16 +33,16 @@
                                 {% endif %}
                             </p>
                             {% if event.venue %}
-                                <p>Venue: {{ event.venue }}</p>
+                            <p>Venue: {{ event.venue }}</p>
                             {% endif %}
-                            <p>{{ event.owner }}</p>
                         </div>
                     </a>
                 </div>
-            {% empty %}
+                {% empty %}
                 <div class="card-panel red-text center-align">No Events Found</div>
-            {% endfor %}
-        <!-- </div>  -->
+                {% endfor %}
+            </div>
+        </div>
     </div>
-
+        
 {% endblock %}
