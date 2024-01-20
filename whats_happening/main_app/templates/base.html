@@ -4,32 +4,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FinchCollector</title>
+    <title>WhatsHappening</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <body>
-    <header class="navbar-fixed">
+<header class="navbar-fixed top-nav">
         <nav>
             <div class="nav-wrapper">
                 <ul>
                     <li>
-                        <a href="/" class="left brand-logo">
-                            &nbsp;&nbsp;Finch Collector
-                        </a>
+                    <h1 class="brand-logo left">What's Happening</h1>   
+                        
                     </li>
                 </ul>
                 <ul class="right">
                         <!-- changes below -->
-                        <li><a href="{% url 'home' %}">About</a></li>
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'about' %}">About</a></li>
+                        <li><a href="{% url 'events_create' %}">Add Event</a></li>
                         {% if user.is_authenticated %}
                         <li>
                         <form method="post" action="{% url 'logout' %}">
                             {% csrf_token %}
                             <button class="btn-flat white-text" type="submit">Log Out</button>
                         </form>
-                         </li>
+                        </li>
                         {% else %}
                         <!-- New Sign Up link -->
                         <li><a href="{% url 'signup' %}">Sign Up</a></li>
@@ -41,13 +43,18 @@
     </header>
     <main class="container">
         {% block content %}
-
         {% endblock %}
     </main>
+    <!-- The footer becomes the Nav Bar -->
     <footer class="page-footer">
+            <a href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a>
+            <a href="{% url 'about' %}"><i class="fas fa-info-circle"></i> About</a>
+            <a href="{% url 'events_create' %}"><i class="fas fa-calendar-plus"></i> Add Event</a>
         <div class="right">
-            All Rights Reserved, &copy; 2024 Finch Collector &nbsp;
+            All Rights Reserved, &copy; 2024 What's Happening &nbsp;
+            <!--^^ This may need to go ^^-->
         </div>
     </footer>
 </body>
 </html>
+
