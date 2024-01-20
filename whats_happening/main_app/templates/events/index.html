@@ -3,6 +3,11 @@
 
     {% if page_title %}
         <h1>{{ page_title}}</h1>
+        {% if include_past %}
+            <a href="{% url 'myownedindex' %}">Hide Past Events</a>
+        {% else %}
+            <a href="{% url 'myownedindex_withpast' %}">Show Past Events</a>
+        {% endif %}
     {% else %}
         <h1>Event List</h1>
     {% endif %}

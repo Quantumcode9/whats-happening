@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
@@ -16,15 +18,28 @@ class EventList(ListView):
   model = Event
   template_name = 'events/index.html'
   
+  def get_queryset(self):
+    return Event.objects.filter(date__gte=datetime.date.today())
+  
 class MyOwnedEventList(EventList):
   def get_queryset(self):
-    print(f"self.request.user = {self.request.user}")
-    return Event.objects.filter(owner=self.request.user)
+    return Event.objects.filter(owner=self.request.user, date__gte=datetime.date.today())
 
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
     context['page_title'] = 'My Owned Events'
+    context['include_past'] = False
     return context
+  
+class MyOwnedWithPastEventList(MyOwnedEventList):
+  def get_queryset(self):
+    return Event.objects.filter(owner=self.request.user)
+  
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context['include_past'] = True
+    return context
+
 
 def signup(request):
   error_message = ''
