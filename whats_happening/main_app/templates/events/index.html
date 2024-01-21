@@ -15,14 +15,14 @@
         {% endif %}
     {% endif %}
 
-    <div class="container2">
+    <div class="event-container">
 
         <div class="row">
             <div class="col">
+            <div class="card">
                 {% for event in object_list %}
                 <div class="card">
-                    <a href="">
-                        
+                    <a href="{% url 'detail' event.id %}">
                         <div class="card-content black-text">
                             <span class="card-title black-text">{{ event.name }}</span>
                             <a class="btn-floating halfway-fab waves-effect waves-light purple lighten-3"><i class="material-icons">go</i></a>
@@ -43,6 +43,5 @@
                 {% endfor %}
             </div>
         </div>
-    </div>
         
 {% endblock %}

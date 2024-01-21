@@ -2,7 +2,7 @@
 {% block content %}
 
     <h1>Search Events</h1>
-    <div class="container2">
+    <div class="search-container">
 
         <form action="{% url 'search_results' %}" method="get">
             <label for="event_name">Event Name:</label>
@@ -13,10 +13,11 @@
             <button type="submit" class="btn">Search</button>
         </form>
         <br>
-    </div>
+        </div>
+    
 
     <script>
-        // this is  js for the datepicker aka Calendar
+        // this is  js for the Calendar
         const startDateEl = document.getElementById('start_date')
         const endDateEl = document.getElementById('end_date')
         // M is materialize's global variable
@@ -33,6 +34,6 @@
             setDefaultDate: true,
             autoClose: true
         })
-    
+
     </script>
 {% endblock %}

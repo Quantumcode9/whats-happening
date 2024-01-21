@@ -10,11 +10,6 @@ from django.db.models import Q
 
 from .models import Event
 
-
-class EventCreate(CreateView):
-    model = Event
-    fields = ['name', 'location', 'start_time', 'end_time']  # replace with your actual fields
-
 from django.views.generic import ListView
 
 from .models import Event, Venue
@@ -29,6 +24,11 @@ def about(request):
 
 def event_search(request):
     return render(request, 'events/search.html')
+  
+def event_detail(request, event_id):
+    event = Event.objects.get(id=event_id)
+    return render(request, 'events/detail.html', {'event': event})
+
 
 ## Event Views
 class EventList(ListView):
@@ -58,6 +58,11 @@ class MyOwnedWithPastEventList(MyOwnedEventList):
     context['showhide_past_option'] = True
     context['include_past'] = True
     return context
+
+class DetailView(DetailView):
+  model = Event
+  template_name = 'events/detail.html'
+
 
 class SearchResultsList(EventList):
   def get_context_data(self, **kwargs):
@@ -104,6 +109,17 @@ def signup(request):
 class EventCreate(CreateView):
   model = Event
   fields = ['name', 'venue', 'description', 'date', 'time',]
-  # success_url = '/'
+  success_url = '/events'
+  
+
+class EventEdit(UpdateView):
+    model = Event
+    fields = ['name', 'date', 'time', 'end_time', 'venue']
+    success_url = '/events'
+
+class EventDelete(DeleteView):
+    model = Event
+    success_url = '/events'
+  
   
   
