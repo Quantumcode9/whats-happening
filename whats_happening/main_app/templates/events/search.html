@@ -5,11 +5,14 @@
     <div class="container2">
 
         <form action="{% url 'search_results' %}" method="get">
+            <br>
             <label for="event_name">Event Name:</label>
             <input name="event_name" type="text">
             <label for="event_name">Venue:</label>
             <input name="venue" type="text">
-
+            <label for="date">Date:</label>
+            <input name="date" type="text" id="date">
+            <br>&nbsp;<br>
             <button type="submit" class="btn">Search</button>
         </form>
         <br>
@@ -17,22 +20,11 @@
 
     <script>
         // this is  js for the datepicker aka Calendar
-        const startDateEl = document.getElementById('start_date')
-        const endDateEl = document.getElementById('end_date')
+        const dateEl = document.getElementById('date')
         // M is materialize's global variable
-        M.Datepicker.init(startDateEl, {
+        M.Datepicker.init(dateEl, {
             format: 'yyyy-mm-dd',
-            defaultDate: new Date(),
-            setDefaultDate: true,
             autoClose: true
         })
-
-        M.Datepicker.init(endDateEl, {
-            format: 'yyyy-mm-dd',
-            defaultDate: new Date(),
-            setDefaultDate: true,
-            autoClose: true
-        })
-    
     </script>
 {% endblock %}
