@@ -23,7 +23,6 @@
                     <a href="{% url 'detail' event.id %}">
                         <div class="card-content black-text">
                             <span class="card-title black-text">{{ event.name }}</span>
-                            <a class="btn-floating halfway-fab waves-effect waves-light purple lighten-3"><i class="material-icons">go</i></a>
                             <p>
                                 {{ event.date }} at {{ event.time }} 
                                 {% if event.end_time %}

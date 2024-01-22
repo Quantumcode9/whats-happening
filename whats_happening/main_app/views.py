@@ -2,12 +2,13 @@ import datetime
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Q
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
-from .models import Event, Venue
+from .models import Event, Venue, Reservation
 from .forms import EventForm
 from .forms import VenueForm 
 
@@ -58,8 +59,43 @@ class DetailView(DetailView):
 
 def event_detail(request, event_id):
     event = Event.objects.get(id=event_id)
-    return render(request, 'events/detail.html', {'event': event})
+    try:
+      reservation = event.reservations.get(attendee=request.user)
+      print(reservation)
+      return render(request, 'events/detail.html', {'event': event, 'reservation': reservation})
+    except Reservation.DoesNotExist: 
+      return render(request, 'events/detail.html', {'event': event})
 
+@login_required
+def assoc_reservation(request, event_id):
+    # Create the reservation
+    reservation = Reservation()
+    reservation.attendee = request.user
+    reservation.guests = request.POST["guests"]
+    reservation.save()
+
+    # Add it to the event
+    Event.objects.get(id=event_id).reservations.add(reservation)
+
+    # Redirect to event detail
+    return redirect('detail', event_id=event_id)
+
+@login_required
+def unassoc_reservation(request, event_id, reservation_id):
+    # Target the event
+    Event.objects.get(id=event_id).reservations.remove(reservation_id)
+    # Redirect to event detail
+    return redirect('detail', event_id=event_id)
+
+@login_required
+def edit_reservation(request, event_id, reservation_id):
+    # Target the event, update guests, and save
+    reservation = Event.objects.get(id=event_id).reservations.get(id=reservation_id) 
+    reservation.guests = request.POST["guests"]
+    reservation.save()
+
+    # Redirect to event detail
+    return redirect('detail', event_id=event_id)
 
 class SearchResultsList(EventList):
     def get_context_data(self, **kwargs):
