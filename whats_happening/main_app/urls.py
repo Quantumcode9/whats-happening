@@ -20,6 +20,8 @@ urlpatterns = [
     path('venues/', venue_list, name='venue_list'),  
     path('venues/<int:pk>/', views.venue_detail, name='venue_detail'),
     path('venues/create/', views.venue_create, name='venue_create'),
+    path('venues/<int:pk>/update/', views.venue_update, name='venue_update'),
+    path('venues/<int:pk>/delete/', views.venue_delete, name='venue_delete'),
 
     path('accounts/signup/', views.signup, name='signup'),
 
