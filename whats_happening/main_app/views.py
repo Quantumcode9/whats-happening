@@ -3,14 +3,10 @@ import datetime
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
+from django.db.models import Q
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
-from django.db.models import Q
-
-from .models import Event
-
-from django.views.generic import ListView
 
 from .models import Event, Venue
 
@@ -18,46 +14,40 @@ from .models import Event, Venue
 def home(request):
     return render(request, 'home.html')
   
-  
 def about(request):
     return render(request, 'about.html')
 
 def event_search(request):
     return render(request, 'events/search.html')
-  
-def event_detail(request, event_id):
-    event = Event.objects.get(id=event_id)
-    return render(request, 'events/detail.html', {'event': event})
 
-
-## Event Views
+## Event Index List Views
 class EventList(ListView):
-  model = Event
-  template_name = 'events/index.html'
-  
-  def get_queryset(self):
-    return Event.objects.filter(date__gte=datetime.date.today())
+    model = Event
+    template_name = 'events/index.html'
+    
+    def get_queryset(self):
+        return Event.objects.filter(date__gte=datetime.date.today())
   
 class MyOwnedEventList(EventList):
-  def get_queryset(self):
-    return Event.objects.filter(owner=self.request.user, date__gte=datetime.date.today())
+    def get_queryset(self):
+        return Event.objects.filter(owner=self.request.user, date__gte=datetime.date.today())
 
-  def get_context_data(self, **kwargs):
-    context = super().get_context_data(**kwargs)
-    context['page_title'] = 'My Owned Events'
-    context['showhide_past_option'] = True
-    context['include_past'] = False
-    return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'My Owned Events'
+        context['showhide_past_option'] = True
+        context['include_past'] = False
+        return context
   
 class MyOwnedWithPastEventList(MyOwnedEventList):
-  def get_queryset(self):
-    return Event.objects.filter(owner=self.request.user)
+    def get_queryset(self):
+        return Event.objects.filter(owner=self.request.user)
   
-  def get_context_data(self, **kwargs):
-    context = super().get_context_data(**kwargs)
-    context['showhide_past_option'] = True
-    context['include_past'] = True
-    return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['showhide_past_option'] = True
+        context['include_past'] = True
+        return context
 
 class DetailView(DetailView):
   model = Event
@@ -65,27 +55,33 @@ class DetailView(DetailView):
 
 
 class SearchResultsList(EventList):
-  def get_context_data(self, **kwargs):
-    context = super().get_context_data(**kwargs)
-    context['page_title'] = 'Search Results'
-    return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Search Results'
+        return context
   
-  def get_queryset(self):
-    q_objects = Q()
+    def get_queryset(self):
+        q_objects = Q()
 
-    # Search by event_name
-    event_name = self.request.GET.get("event_name")
-    if event_name:
-      print('adding event_name to query')
-      q_objects &= Q(name__icontains=event_name)
-    
-    # Search by venue
-    venue = self.request.GET.get("venue")
-    if venue:
-      q_objects &= Q(venue__name__icontains=venue)
+        # Search by event_name
+        event_name = self.request.GET.get('event_name')
+        if event_name:
+            q_objects &= Q(name__icontains=event_name)
+        
+        # Search by venue
+        venue = self.request.GET.get('venue')
+        if venue:
+            q_objects &= Q(venue__name__icontains=venue)
 
-    # Always filter out past events
-    return Event.objects.filter(q_objects, date__gte=datetime.date.today())
+        # Search by date
+        date = self.request.GET.get('date')
+        if date:
+            q_objects &= Q(date=date)
+        else:
+            # If no date picked, filter out past events
+            q_objects &= Q(date__gte=datetime.date.today())
+
+        return Event.objects.filter(q_objects)
 
 def signup(request):
   error_message = ''

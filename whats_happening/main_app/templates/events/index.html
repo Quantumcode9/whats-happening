@@ -17,8 +17,6 @@
 
     <div class="event-container">
 
-        <div class="row">
-            <div class="col">
             <div class="card">
                 {% for event in object_list %}
                 <div class="card">
@@ -35,12 +33,12 @@
                             {% if event.venue %}
                             <p>Venue: {{ event.venue }}</p>
                             {% endif %}
-                        </div>
-                    </a>
-                </div>
-                {% empty %}
-                <div class="card-panel red-text center-align">No Events Found</div>
-                {% endfor %}
+                        </p>
+                        {% if event.venue %}
+                        <p>{{ event.venue }}</p>
+                        {% endif %}
+                    </div>
+                </a>
             </div>
         </div>
         
