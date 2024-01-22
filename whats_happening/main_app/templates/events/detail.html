@@ -13,60 +13,101 @@
                 <p><strong>Date:</strong> {{ event.date }} at {{ event.time }}{% if event.end_time %} - {{ event.end_time }}{% endif %}</p>
                 <p><strong>Venue:</strong> {{ event.venue }}</p>
                 <p>Location: {{ event.location }}</p>
-                </div>
             </div>
         </div>
+    </div>
     <div class="col s6">
         <div class = "card">
             <div class="card-content">
-            <p><strong>Hosted by:</strong> {{ event.owner }}</p>
-            <hr>
-            <p>{{ event.description }}</p>
+                <p><strong>Hosted by:</strong> {{ event.owner }}</p>
+                <hr>
+                <p>{{ event.description }}</p>
             </div>
         </div>
     </div>
 </div>
 {% if request.user == event.owner %}
-<div class = "options">
-    <h2>User Options</h2>
-    <a class="btn" href="{% url 'event_edit' event.id %}"><i class="fas fa-edit"></i>Edit</a>
-    <br>
-    <a class="btn" href="{% url 'event_delete' event.id %}"><i class="fas fa-trash-alt"></i>Delete</a>
-</div>
-{% else %}
-<div class = "options">
-    <h2>User Options</h2>
-    <br>
-    {% if reservation %}
-        <form action="{% url 'event_edit_reservation' event.id reservation.id %}" method="post">
-            {% csrf_token %}
-            <div class="input-field inline">
-                <label for="guests">Guest Count:</label>
-                <input type="text" name="guests" value="{{ reservation.guests }}" id="guests">
-            </div>
-            <br>
-            <button type="submit" class="btn"><i class="fas fa-calendar-plus"></i> Update Guest Count</button>
-        </form>
+    <div class = "options">
+        <h2>User Options</h2>
+        <a class="btn" href="{% url 'event_edit' event.id %}"><i class="fas fa-edit"></i>Edit</a>
         <br>
-        <form action="{% url 'unassoc_reservation' event.id reservation.id %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="btn"><i class="fas fa-calendar-minus"></i> I'm Not Going!</button>
-        </form>
-    {% else %}
-        <form action="{% url 'assoc_reservation' event.id %}" method="post">
-            {% csrf_token %}           
-            <div class="input-field inline">
-                <label for="guests">Guest Count:</label>
-                <input type="text" name="guests" value="0" id="guests">
-            </div>
-            <br>
-            <button type="submit" class="btn"><i class="fas fa-calendar-plus"></i> I'm Going!</button>
-        </form>
-    {% endif %}
-</div>
-<br>
+        <a class="btn" href="{% url 'event_delete' event.id %}"><i class="fas fa-trash-alt"></i>Delete</a>
+    </div>
+{% else %}
+    <div class="card">
+        <div class="card-title">
+            <h2>Reservation</h2>
+        </div>
+        <div class="card-content">
+            {% if reservation %}
+                <div class="row">
+                    <form action="{% url 'event_edit_reservation' event.id reservation.id %}" method="post" class="col s12">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="input-field col s4">
+                                <a class="btn-floating btn waves-effect waves-light red white-text" href="javascript:decrement()" id="minus-button">-</a>
+                            </div>
+                            <div class="input-field col s4">
+                                <label for="guests">Number of Guests:</label>
+                                <input type="number" name="guests" min="0" max="10" value="{{ reservation.guests }}" id="guests">
+                            </div>
+                            <div class="input-field col s4">
+                                <a class="btn-floating btn waves-effect waves-light white-text" href="javascript:increment()"" id="plus-button">+</a>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn"><i class="fas fa-calendar-plus"></i> Update Guest Count</button>
+                    </form>
+                    <br>&nbsp;<br>
+                    <form action="{% url 'unassoc_reservation' event.id reservation.id %}" method="post" class="col s12">
+                        {% csrf_token %}
+                        <button type="submit" class="btn red"><i class="fas fa-calendar-minus"></i> I'm Not Going!</button>
+                    </form>
+                </div>
+            {% else %}
+                <div class="row">
+                    <form action="{% url 'assoc_reservation' event.id %}" method="post">
+                        {% csrf_token %}           
+                        <div class="row">
+                            <div class="input-field col s4">
+                                <a class="btn-floating btn waves-effect waves-light red white-text disabled" href="javascript:decrement()" id="minus-button">-</a>
+                            </div>
+                            <div class="input-field col s4">
+                                <label for="guests">Number of Guests:</label>
+                                <input type="number" name="guests" min="0" max="10" value="0" id="guests">
+                            </div>
+                            <div class="input-field col s4">
+                                <a class="btn-floating btn waves-effect waves-light white-text" href="javascript:increment()"" id="plus-button">+</a>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn"><i class="fas fa-calendar-plus"></i> I'm Going!</button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    </div>
 {% endif %}
 
+<script>
+    const minusBtnEl = document.getElementById("minus-button")
+    const guestCountEl = document.getElementById("guests")
+    const plusBtnEl = document.getElementById("plus-button")
+    let guestNum = 0
+
+    function increment() {
+        guestCountEl.stepUp()
+        minusBtnEl.classList.remove("disabled")
+        if (guestCountEl.value >= 10) {
+            plusBtnEl.classList.add("disabled")
+        }
+    }
+    function decrement() {
+        guestCountEl.stepDown()
+        plusBtnEl.classList.remove("disabled")
+        if (guestCountEl.value == 0) {
+            minusBtnEl.classList.add("disabled")
+        }
+    }
+</script>
 
 {% endblock %}
 
