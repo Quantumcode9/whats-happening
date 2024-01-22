@@ -7,8 +7,8 @@ from django.db.models import Q
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
-from django import forms
 from .models import Event, Venue
+from .forms import EventForm
 
 # Create your views here.
 def home(request):
@@ -107,23 +107,9 @@ def signup(request):
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
 
-
-class EventForm(forms.ModelForm):
-    time = forms.TimeField(
-        input_formats=['%I:%M %p'],
-        widget=forms.TimeInput(format='%I:%M %p')
-    )
-
-    class Meta:
-        model = Event
-        fields = ['name', 'venue', 'description', 'date', 'time', 'end_time']
-        widgets = {
-            'date': forms.DateInput(attrs={'type': 'date'}),
-        }
-
 class EventCreate(CreateView):
   model = Event
-  fields = ['name', 'venue', 'description', 'date', 'time', 'end_time']
+  form_class = EventForm
   success_url = '/events'
   
   def form_valid(self, form):

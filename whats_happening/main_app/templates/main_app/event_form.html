@@ -9,7 +9,7 @@
     <form action="" method = "POST">
     {% csrf_token %}
         <table>
-        {{form.as_table}}  
+     {{ form.as_table }}
         </table>
             <div class="center-align">
         <input type="submit" value="Submit!" class="btn">
@@ -27,20 +27,46 @@
         setDefaultDate: true,
         autoClose: true
     })
-    // this is js for the timepicker aka Clock
-    const startTimeEl = document.getElementById('id_time');
-    const endTimeEl = document.getElementById('id_end_time');
-    M.Timepicker.init(startTimeEl, {
-        autoClose: true,
-        twelveHour: true,
-        format: 'hh:mm A'
-    });
-    // leaving end time here for now
-    M.Timepicker.init(endTimeEl, {
-        autoClose: true,
-        twelveHour: true,
-        format: 'hh:mm A'
-    });
+// Timepicker selects from a 12-hour format
+const timeEl = document.getElementById('id_time');
+M.Timepicker.init(timeEl, {
+    format: 'hh:mm A',
+    defaultTime: 'now',
+    autoClose: true,
+ // onCloseEnd is a cb that runs when the timepicker is closed
+    onCloseEnd: function() {
+        const time12hr = timeEl.value;
+        const [time, modifier] = time12hr.split(' ');
+        let [hours, minutes] = time.split(':');
+        if (hours === '12') {
+            hours = '00';
+        }
+// if the modifier is PM, add 12 to the hours to convert to 24-hour format
+        if (modifier === 'PM') {
+            hours = parseInt(hours, 10) + 12;
+        }
+        timeEl.value = `${hours}:${minutes}:00`;
+    }
+});
+
+const end_timeEl = document.getElementById('id_end_time');
+M.Timepicker.init(end_timeEl, {
+    format: 'hh:mm A',
+    autoClose: true,
+    onCloseEnd: function() {
+        const time12hr = end_timeEl.value;
+        const [time, modifier] = time12hr.split(' ');
+        let [hours, minutes] = time.split(':');
+        if (hours === '12') {
+            hours = '00';
+        }
+        if (modifier === 'PM') {
+            hours = parseInt(hours, 10) + 12;
+        }
+        end_timeEl.value = `${hours}:${minutes}:00`;
+    }
+});
+
 
 
 </script>
