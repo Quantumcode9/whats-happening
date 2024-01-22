@@ -137,6 +137,9 @@ p {
     padding: 10px;
 }
 
+.smaller-text {
+    font-size: small;
+}
 
 
 /* BUTTONS */

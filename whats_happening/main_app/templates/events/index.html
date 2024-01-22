@@ -7,38 +7,47 @@
         <h1>Event List</h1>
     {% endif %}
 
-    {% if showhide_past_option %}
-        {% if include_past %}
-            <a href="{% url 'myownedindex' %}">Hide Past Events</a>
+    {% if show_filter_options %}
+        {% if past_filter == 'show' and event_filter == 'owned' %}
+            <a href="{% url 'myownedindex' %}">Hide Past Events</a> 
+            | <a href="{% url 'myindex_withpast' %}">Show All My Events</a>
+        {% elif past_filter == 'show' and event_filter == 'all' %}
+            <a href="{% url 'myindex' %}">Hide Past Events</a> 
+            | <a href="{% url 'myownedindex_withpast' %}">Show Only My Owned Events</a>
+        {% elif past_filter == 'hide' and event_filter == 'owned' %}
+            <a href="{% url 'myownedindex_withpast' %}">Show Past Events</a> 
+            | <a href="{% url 'myindex' %}">Show All My Events</a>
         {% else %}
-            <a href="{% url 'myownedindex_withpast' %}">Show Past Events</a>
+            <a href="{% url 'myindex_withpast' %}">Show Past Events</a> 
+            | <a href="{% url 'myownedindex' %}">Show Only My Owned Events</a>
         {% endif %}
     {% endif %}
 
     <div class="event-container">
-
-            <div class="card">
-                {% for event in object_list %}
-                <div class="card">
-                    <a href="{% url 'detail' event.id %}">
-                        <div class="card-content black-text">
-                            <span class="card-title black-text">{{ event.name }}</span>
-                            <p>
-                                {{ event.date }} at {{ event.time }} 
-                                {% if event.end_time %}
-                                - {{ event.end_time }}
-                                {% endif %}
+        {% for event in object_list %}
+            <div class="card hoverable">
+                <a href="{% url 'detail' event.id %}">
+                    <div class="card-content black-text">
+                        <span class="card-title black-text">{{ event.name }}</span>
+                        <p>
+                            {{ event.date }} at {{ event.time }} 
+                            {% if event.end_time %}
+                            - {{ event.end_time }}
+                            {% endif %}
                         </p>
                         {% if event.venue %}
-        <p>{{ event.venue }}</p>
+                            <p>{{ event.venue }}</p>
+                        {% endif %}
+
+                        {% if event.owner == user %}
+                            <p class="grey-text smaller-text"><i class="fas fa-key"></i> I own this event!</p>
                         {% endif %}
                     </div>
                 </a>
             </div>
-        </div>
         {% empty %}
-        <div class="card-panel red-text center-align">No Events Found</div>
-    {% endfor %}
+            <div class="card-panel red-text center-align">No Events Found</div>
+        {% endfor %}
     </div>
         
 {% endblock %}
