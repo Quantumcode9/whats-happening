@@ -29,6 +29,8 @@
                             <li><a href="{% url 'index' %}">All Events</a></li>
                             <li><a href="{% url 'search' %}">Search Events</a></li>
                             <li><a href="{% url 'myownedindex' %}">My Events</a></li>
+                                <!-- New link for Venues -->
+                            <li><a href="{% url 'venue_list' %}">Venues</a></li>
                             <li>
                                 <form method="post" action="{% url 'logout' %}">
                                     {% csrf_token %}

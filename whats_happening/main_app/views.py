@@ -1,6 +1,6 @@
 import datetime
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Q
@@ -9,6 +9,8 @@ from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 
 from .models import Event, Venue
+from .forms import VenueForm 
+
 
 # Create your views here.
 def home(request):
@@ -102,4 +104,39 @@ class EventCreate(CreateView):
   fields = ['name', 'venue', 'description', 'date', 'time',]
   # success_url = '/'
   
-  
+  # Views for Venue
+def venue_list(request):
+    venues = Venue.objects.all()
+    return render(request, 'venues/list.html', {'venues': venues})
+
+def venue_detail(request, pk):
+    venue = get_object_or_404(Venue, pk=pk)
+    return render(request, 'venues/detail.html', {'venue': venue})
+
+def venue_create(request):
+    if request.method == 'POST':
+        form = VenueForm(request.POST)
+        if form.is_valid():
+            venue = form.save(commit=False)
+            venue.save()
+            return redirect('venue_list')
+    else:
+        form = VenueForm()
+    return render(request, 'venues/form.html', {'form': form})
+
+def venue_update(request, pk):
+    venue = get_object_or_404(Venue, pk=pk)
+    if request.method == 'POST':
+        form = VenueForm(request.POST, instance=venue)
+        if form.is_valid():
+            venue = form.save(commit=False)
+            venue.save()
+            return redirect('venue_list')
+    else:
+        form = VenueForm(instance=venue)
+    return render(request, 'venues/form.html', {'form': form})
+
+def venue_delete(request, pk):
+    venue = get_object_or_404(Venue, pk=pk)
+    venue.delete()
+    return redirect('venue_list')

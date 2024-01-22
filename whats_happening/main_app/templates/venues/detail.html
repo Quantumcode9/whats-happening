@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>{{ venue.name }}</h2>
+  <p>Address: {{ venue.address }}</p>
+  <p>Capacity: {{ venue.capacity }}</p>
+  <a href="{% url 'venue_list' %}">Back to Venue List</a>
+  <a href="{% url 'venue_update' venue.id %}">Edit Venue</a>
+  <a href="{% url 'venue_delete' venue.id %}">Delete Venue</a>
+{% endblock %}
