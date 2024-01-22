@@ -32,8 +32,26 @@
     <a class="btn" href="{% url 'event_edit' event.id %}"><i class="fas fa-edit"></i>Edit</a>
     <br>
     <a class="btn" href="{% url 'event_delete' event.id %}"><i class="fas fa-trash-alt"></i>Delete</a>
+</div>
+{% else %}
+<div class = "options">
+    <h2>User Options</h2>
+    <br>
+    {% if reservation %}
+        <form action="{% url 'unassoc_reservation' event.id reservation.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn"><i class="fas fa-calendar-minus"></i> I'm Not Going!</button>
+        </form>
+    {% else %}
+        <form action="{% url 'assoc_reservation' event.id %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="guests" value="0">
+            <button type="submit" class="btn"><i class="fas fa-calendar-plus"></i> I'm Going!</button>
+        </form>
     {% endif %}
 </div>
+<br>
+{% endif %}
 
 
         

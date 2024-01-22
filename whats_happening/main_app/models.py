@@ -4,7 +4,6 @@ from datetime import date
 
 
 # Create your models here.
-#
     
 class Venue(models.Model):
     name = models.CharField(max_length=100)
@@ -14,6 +13,14 @@ class Venue(models.Model):
     
     def __str__(self):
         return self.name
+
+
+class Reservation(models.Model):
+    attendee = models.ForeignKey(User, on_delete=models.CASCADE)
+    guests = models.IntegerField(default=0)
+    
+    def __str__(self):
+        return f"{self.attendee} - guests: {self.guests}"
     
 
 class Event(models.Model):
@@ -26,7 +33,7 @@ class Event(models.Model):
     end_time = models.TimeField(null=True, blank=True)
 
     # recurring = models.BooleanField(default=False)
-    # reservations = models.ManyToManyField('Reservation', blank=True)
+    reservations = models.ManyToManyField(Reservation)
     # recurrences = models.ForeignKey('Recurrences', on_delete=models.CASCADE, null=True, blank=True)
     # image = models.ImageField(upload_to='images/', blank=True)
     
@@ -38,10 +45,3 @@ class Event(models.Model):
     
     
 
-# class Reservation(models.Model):
-#     name = models.CharField(max_length=100)
-#     guests = models.IntegerField()
-    
-    
-#     def __str__(self):
-#         return self.name
