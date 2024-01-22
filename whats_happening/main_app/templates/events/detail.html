@@ -38,14 +38,28 @@
     <h2>User Options</h2>
     <br>
     {% if reservation %}
+        <form action="{% url 'event_edit_reservation' event.id reservation.id %}" method="post">
+            {% csrf_token %}
+            <div class="input-field inline">
+                <label for="guests">Guest Count:</label>
+                <input type="text" name="guests" value="{{ reservation.guests }}" id="guests">
+            </div>
+            <br>
+            <button type="submit" class="btn"><i class="fas fa-calendar-plus"></i> Update Guest Count</button>
+        </form>
+        <br>
         <form action="{% url 'unassoc_reservation' event.id reservation.id %}" method="post">
             {% csrf_token %}
             <button type="submit" class="btn"><i class="fas fa-calendar-minus"></i> I'm Not Going!</button>
         </form>
     {% else %}
         <form action="{% url 'assoc_reservation' event.id %}" method="post">
-            {% csrf_token %}
-            <input type="hidden" name="guests" value="0">
+            {% csrf_token %}           
+            <div class="input-field inline">
+                <label for="guests">Guest Count:</label>
+                <input type="text" name="guests" value="0" id="guests">
+            </div>
+            <br>
             <button type="submit" class="btn"><i class="fas fa-calendar-plus"></i> I'm Going!</button>
         </form>
     {% endif %}
@@ -53,8 +67,6 @@
 <br>
 {% endif %}
 
-
-        
 
 {% endblock %}
 

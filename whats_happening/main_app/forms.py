@@ -24,3 +24,4 @@ class VenueForm(ModelForm):
     class Meta:
         model = Venue
         fields = ['name', 'location', 'description']
+

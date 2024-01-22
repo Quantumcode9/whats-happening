@@ -87,6 +87,16 @@ def unassoc_reservation(request, event_id, reservation_id):
     # Redirect to event detail
     return redirect('detail', event_id=event_id)
 
+@login_required
+def edit_reservation(request, event_id, reservation_id):
+    # Target the event, update guests, and save
+    reservation = Event.objects.get(id=event_id).reservations.get(id=reservation_id) 
+    reservation.guests = request.POST["guests"]
+    reservation.save()
+
+    # Redirect to event detail
+    return redirect('detail', event_id=event_id)
+
 class SearchResultsList(EventList):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
