@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- details page  -->
+
+<h1 class="center-align">{{ event.name }} at {{ event.venue }}</h1>
+
+<div class="row">
+    <div class="col s6">
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">{{ event.name }}</span>
+                <p><strong>Date:</strong> {{ event.date }} at {{ event.time }}{% if event.end_time %} - {{ event.end_time }}{% endif %}</p>
+                <p><strong>Venue:</strong> {{ event.venue }}</p>
+                <p>Location: {{ event.location }}</p>
+                </div>
+            </div>
+        </div>
+    <div class="col s6">
+        <div class = "card">
+            <div class="card-content">
+            <p><strong>Hosted by:</strong> {{ event.owner }}</p>
+            <hr>
+            <p>{{ event.description }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% if request.user == event.owner %}
+<div class = "options">
+    <h2>User Options</h2>
+    <a class="btn" href="{% url 'event_edit' event.id %}"><i class="fas fa-edit"></i>Edit</a>
+    <br>
+    <a class="btn" href="{% url 'event_delete' event.id %}"><i class="fas fa-trash-alt"></i>Delete</a>
+    {% endif %}
+</div>
+
+
+        
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+

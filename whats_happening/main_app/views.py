@@ -7,8 +7,8 @@ from django.db.models import Q
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
-
 from .models import Event, Venue
+from .forms import EventForm
 
 # Create your views here.
 def home(request):
@@ -48,6 +48,16 @@ class MyOwnedWithPastEventList(MyOwnedEventList):
         context['showhide_past_option'] = True
         context['include_past'] = True
         return context
+
+class DetailView(DetailView):
+  model = Event
+  template_name = 'events/detail.html'
+
+
+def event_detail(request, event_id):
+    event = Event.objects.get(id=event_id)
+    return render(request, 'events/detail.html', {'event': event})
+
 
 class SearchResultsList(EventList):
     def get_context_data(self, **kwargs):
@@ -99,7 +109,22 @@ def signup(request):
 
 class EventCreate(CreateView):
   model = Event
-  fields = ['name', 'venue', 'description', 'date', 'time',]
-  # success_url = '/'
+  form_class = EventForm
+  success_url = '/events'
+  
+  def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+  
+
+class EventEdit(UpdateView):
+    model = Event
+    fields = ['name', 'date', 'time', 'end_time', 'venue']
+    success_url = '/events'
+
+class EventDelete(DeleteView):
+    model = Event
+    success_url = '/events'
+  
   
   
