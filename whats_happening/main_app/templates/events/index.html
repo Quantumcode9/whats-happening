@@ -29,17 +29,17 @@
                                 {% if event.end_time %}
                                 - {{ event.end_time }}
                                 {% endif %}
-                            </p>
-                            {% if event.venue %}
-                            <p>Venue: {{ event.venue }}</p>
-                            {% endif %}
                         </p>
                         {% if event.venue %}
-                        <p>{{ event.venue }}</p>
+           <p>{{ event.venue }}</p>
                         {% endif %}
                     </div>
                 </a>
             </div>
         </div>
+        {% empty %}
+        <div class="card-panel red-text center-align">No Events Found</div>
+    {% endfor %}
+    </div>
         
 {% endblock %}

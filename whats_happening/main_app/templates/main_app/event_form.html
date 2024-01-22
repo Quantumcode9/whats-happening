@@ -31,11 +31,15 @@
     const startTimeEl = document.getElementById('id_time');
     const endTimeEl = document.getElementById('id_end_time');
     M.Timepicker.init(startTimeEl, {
-        autoClose: true
+        autoClose: true,
+        twelveHour: true,
+        format: 'hh:mm A'
     });
     // leaving end time here for now
     M.Timepicker.init(endTimeEl, {
-        autoClose: true
+        autoClose: true,
+        twelveHour: true,
+        format: 'hh:mm A'
     });
 
 
