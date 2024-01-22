@@ -30,26 +30,52 @@ class EventList(ListView):
     
     def get_queryset(self):
         return Event.objects.filter(date__gte=datetime.date.today())
-  
-class MyOwnedEventList(EventList):
+
+class MyEventList(EventList):
+    def get_queryset(self):
+        return Event.objects.filter(
+            (Q(owner=self.request.user) | Q(reservations__attendee=self.request.user)) &
+            Q(date__gte=datetime.date.today())
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'My Events'
+        context['show_filter_options'] = True
+        context['past_filter'] = 'hide'
+        context['event_filter'] = 'all'
+        return context
+    
+class MyWithPastEventList(MyEventList):
+    def get_queryset(self):
+        return Event.objects.filter(
+            (Q(owner=self.request.user) | Q(reservations__attendee=self.request.user))
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['past_filter'] = 'show'
+        return context
+    
+class MyOwnedEventList(MyEventList):
     def get_queryset(self):
         return Event.objects.filter(owner=self.request.user, date__gte=datetime.date.today())
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_title'] = 'My Owned Events'
-        context['showhide_past_option'] = True
-        context['include_past'] = False
+        context['show_filter_options'] = True
+        context['past_filter'] = 'hide'
+        context['event_filter'] = 'owned'
         return context
-  
+
 class MyOwnedWithPastEventList(MyOwnedEventList):
     def get_queryset(self):
         return Event.objects.filter(owner=self.request.user)
-  
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['showhide_past_option'] = True
-        context['include_past'] = True
+        context['past_filter'] = 'show'
         return context
 
 class DetailView(DetailView):
