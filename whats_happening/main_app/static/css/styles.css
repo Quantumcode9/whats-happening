@@ -75,7 +75,7 @@ border-radius: 10px;
 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 overflow: hidden;
 text-align: center;
-margin-bottom: 15px;
+margin-bottom: 30px;
 margin-top: 15px;
 }
 
@@ -98,6 +98,17 @@ margin-top: 15px;
     overflow: hidden;
 
 }
+
+/* scroll container */
+
+.scroll-container {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 20px; 
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+
 
 
 /* TEXT */
@@ -137,6 +148,82 @@ p {
     padding: 10px;
 }
 
+.event-card {
+    background-color: white;
+    color: #2d2d2d;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.event-card:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: scale(1.02);
+    transition: 0.3s;
+}
+
+.image-card {
+    flex: 0 0 auto;
+    margin-bottom: 20px;
+    margin-right: 15px; 
+    margin-top: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+    width: 400px; 
+    height: auto; 
+    text-align: center; 
+    display: inline-block; 
+    font-size: 12px; 
+    overflow: hidden; 
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  
+  /* Text ellipsis for overflowing text */
+  .event-card h4, .event-card p{
+    margin-top: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  
+.hub-card:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease-in-out;
+
+}
+
+.image-card:hover .image-card-img {
+        transform: scale(1.1);
+        transition: transform 0.3s ease-in-out;
+}  
+
+.profile-card {
+    background-color: white;
+    color: #2d2d2d;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.profile-image {
+    width: 700px;
+    height: 250px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
 .smaller-text {
     font-size: small;
 }
@@ -178,6 +265,7 @@ input[type=number] {
 
 
 /* IMAGES */
+
 
 /* MEDIA QUERIES */
 
