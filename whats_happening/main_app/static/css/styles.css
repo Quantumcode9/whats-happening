@@ -2,8 +2,8 @@
 
 /* Comment this out if your having trouble seeing text outside containers  */
 body {
-background-color: #2d2d2d;
-color : #fff;
+    background-color: #2d2d2d;
+    color : #fff;
 }
 
 /* NAV & FOOTER */
@@ -65,18 +65,18 @@ nav .brand-logo {
 
 /* CONTAINERS */
 .container {
-margin: 0 auto;
-padding: 0 20px;
-box-sizing: border-box;
-max-width: 800px;
-background-color: white;
-color: #2d2d2d;
-border-radius: 10px;
-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-overflow: hidden;
-text-align: center;
-margin-bottom: 30px;
-margin-top: 15px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+    max-width: 800px;
+    background-color: white;
+    color: #2d2d2d;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 15px;
 }
 
 .search-container {
@@ -107,8 +107,6 @@ margin-top: 15px;
     padding-bottom: 20px; 
     background-color: rgba(0, 0, 0, 0.1);
 }
-
-
 
 
 /* TEXT */
@@ -182,18 +180,16 @@ p {
     overflow: hidden; 
     border-radius: 5px;
     background-color: rgba(255, 255, 255, 0.1);
-  }
-  
-  
+}
+
   /* Text ellipsis for overflowing text */
-  .event-card h4, .event-card p{
+.event-card h4, .event-card p{
     margin-top: 5px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-  
-  
+}
+
 .hub-card:hover {
     transform: scale(1.05);
     transition: transform 0.3s ease-in-out;
