@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- details page  -->
+{% if event %}
+
+<h1 class="center-align">{{ event.name }} at {{ event.venue }}</h1>
+    {% if event.images|length > 1 %}
+    <div class="profile-card">
+    <!-- This is an array of images: {{ event.images }} 1 is the header-->
+        <img src="{{ event.images.1.url }}" alt="{{ event.name }}" class="profile-image">
+    </div>
+    {% endif %}
+
+<div class="row">
+    <div class="">
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">{{ event.name }}</span>
+
+                <p>Date: {{ event.start_date }} at {{ event.start_time }}</p>
+                <p>{% if event.end_time %} - {{ event.end_time }}{% endif %}</p>
+                <p><strong>Venue:</strong> {{ event.venue }}</p>
+                <p><strong>Address:</strong> {{ event.location.address }}</p>
+                <p><strong>City:</strong> {{ event.location.city }}</p>
+                <p><strong>State:</strong> {{ event.location.state }}</p>
+                <p><strong>Country:</strong> {{ event.location.country }}</p>
+                </div>
+            </div>
+        </div>
+            <div class="">
+                <div class = "card">
+                    <div class="card-content"> 
+                        <div class="external-links">
+                            {% for platform, links in event.externalLinks.items %}
+                                {% for link in links %}
+                                    <p><strong>{{ platform|capfirst }}:</strong> <a href="{{ link.url }}" target="_blank">{{ link.url }}</a></p>
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="container-fluid">
+                <div class="scroll-container">
+                    <div class="d-flex">
+                        {% for image in event.images %}
+                        <div class="image-card">
+                            <img src="{{ image.url }}" alt="{{ event.name }}">
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+           
+
+            
+
+
+
+{% else %}
+    <p>{{ error }}</p>
+{% endif %}
+{% if request.user == event.owner %}
+<div class = "options">
+    <h2>User Options</h2>
+    <a class="btn" href="{% url 'event_edit' event.id %}"><i class="fas fa-edit"></i>Edit</a>
+    <br>
+    <a class="btn" href="{% url 'event_delete' event.id %}"><i class="fas fa-trash-alt"></i>Delete</a>
+    {% endif %}
+</div>
+
+
+
+        
+
+{% endblock %}
+
+

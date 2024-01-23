@@ -17,6 +17,28 @@
 
     <div class="event-container">
 
+        {% for event in events %}
+    <h2>{{ event.name.text }}</h2>
+    <p>{{ event.description.text }}</p>
+{% endfor %}
+
+
+<div class="card">
+  <h2> EVENTS Events</h2>
+  <ul>
+    {% for event in events %}
+      <li>
+        <h3>{{ event.name.text }}</h3>
+        <p>{{ event.description.text }}</p>
+        <!-- Add more event details you want to display -->
+      </li>
+    {% empty %}
+      <li>No events found.</li>
+    {% endfor %}
+  </ul>
+</div>
+
+
             <div class="card">
                 {% for event in object_list %}
                 <div class="card">

@@ -9,16 +9,93 @@ from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from .models import Event, Venue
 from .forms import EventForm
+from django.http import HttpResponse
+from .ticketmaster_api import get_ticketmaster_events
+from .ticketmaster_api import get_event_details
+
+
 
 # Create your views here.
 def home(request):
     return render(request, 'home.html')
-  
+
 def about(request):
     return render(request, 'about.html')
 
 def event_search(request):
     return render(request, 'events/search.html')
+
+
+def events_index(request):
+    events = Event.objects.all()
+    return render(request, 'events/index.html', {'events': events})
+
+
+# Api call events by keyword
+def events_view(request):
+   api_key = 'TwGGLlIhPr3PtugWAMYtjGdnJwGdQTYs'
+   events_data = get_ticketmaster_events(api_key, keyword="music")
+   ####
+   print(events_data)
+######
+   events = []
+
+   if events_data:
+     for event in events_data.get('_embedded', {}).get('events', []):
+        embedded = event.get('_embedded', {})
+        venues = embedded.get('venues') if embedded else []
+        venue_name = venues[0].get('name') if venues else None
+        event_info = {
+            'id': event.get('id'),
+            'name': event.get('name'),
+            'date': event.get('dates', {}).get('start', {}).get('localDate'),
+            'time': event.get('dates', {}).get('start', {}).get('localTime'),
+            'image_url': event.get('images', [])[0].get('url') if event.get('images') else None,
+            'venue': venue_name
+            }
+        events.append(event_info)
+
+   return render(request, 'events/keyword.html', {'events': events})
+
+# Api call event by id
+def event_detail(request, event_id):
+    api_key = 'TwGGLlIhPr3PtugWAMYtjGdnJwGdQTYs'
+    event_data = get_event_details(api_key, event_id)  
+#####
+    # print(event_data)
+#####
+    if event_data:
+        event_info = {
+            'name': event_data.get('name'),
+            'images': event_data.get('images', []),
+            'venue': event_data.get('_embedded', {}).get('venues', [])[0].get('name') if event_data.get('_embedded', {}).get('venues') else None,
+            'externalLinks': {
+                'youtube': event_data.get('externalLinks', {}).get('youtube', [{}])[0].get('url') if event_data.get('externalLinks', {}).get('youtube') else None,
+                'twitter': event_data.get('externalLinks', {}).get('twitter', [{}])[0].get('url') if event_data.get('externalLinks', {}).get('twitter') else None,
+            },
+            'info': event_data.get('info'),
+            'location': {
+                'address': event_data.get('_embedded', {}).get('venues', [])[0].get('address', {}).get('line1') if event_data.get('_embedded', {}).get('venues') else None,
+                'city': event_data.get('_embedded', {}).get('venues', [])[0].get('city', {}).get('name') if event_data.get('_embedded', {}).get('venues') else None,
+                'state': event_data.get('_embedded', {}).get('venues', [])[0].get('state', {}).get('name') if event_data.get('_embedded', {}).get('venues') else None,
+                'country': event_data.get('_embedded', {}).get('venues', [])[0].get('country', {}).get('name') if event_data.get('_embedded', {}).get('venues') else None,
+            },
+            'start_date': event_data.get('dates', {}).get('start', {}).get('localDate'),
+            'start_time': event_data.get('dates', {}).get('start', {}).get('localTime'),
+        }
+        print(event_info)
+        return render(request, 'events/categories/event_detail.html', {'event': event_info})
+    else:
+        return HttpResponse("Event not found or an error occurred.")
+
+
+
+
+def event_list(request):
+    events = get_events()
+    return render(request, 'events/event_list.html', {'events': events})
+
+
 
 ## Event Index List Views
 class EventList(ListView):
@@ -54,7 +131,7 @@ class DetailView(DetailView):
   template_name = 'events/detail.html'
 
 
-def event_detail(request, event_id):
+def event_detail_model(request, event_id):
     event = Event.objects.get(id=event_id)
     return render(request, 'events/detail.html', {'event': event})
 

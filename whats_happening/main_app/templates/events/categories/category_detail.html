@@ -1,0 +1,21 @@
+
+{% extends 'base.html' %}
+{% block content %}
+{% if events %}
+    <h2>Events List</h2>
+    <ul>
+        {% for event in events %}
+            <li>
+                <h3>{{ event.name.text }}</h3>
+                <p>{{ event.description.text|default:"No description available." }}</p>
+                <!-- Add more event details here -->
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>{{ error }}</p>
+{% endif %}
+
+
+
+{% endblock %}

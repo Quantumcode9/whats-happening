@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if events %}
+    <h2>Events</h2>
+    <div class="row">
+        {% for event in events %}
+            <div class="col-sm-4">
+                <a href="{% url 'event_detail' event.id %}">
+                <div class="event-card">
+                    <div class="card-body">
+                        <h3 class="card-title">{{ event.name }}</h3>
+                        <p class="card-text">Date: {{ event.date }} Time: {{ event.time }}</p>
+                        {% if event.image_url %}
+                            <img class="card-img-top" src="{{ event.image_url }}" alt="{{ event.name }}">
+                        {% endif %}
+                        <!-- we can add more event details here -->
+                        <p class="card-text">Venue: {{ event.venue }}</p>
+                    </div>
+
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>{{ error }}</p>
+{% endif %}
+
+{% endblock %}
