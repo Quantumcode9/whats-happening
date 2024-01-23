@@ -1,6 +1,7 @@
 import datetime
 
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
@@ -8,15 +9,12 @@ from django.db.models import Q
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
+
 from .models import Event, Venue, Reservation
-from .forms import EventForm
-from .forms import VenueForm 
-from django.http import HttpResponse
+from .forms import EventForm, VenueForm, SearchForm 
+
 from .ticketmaster_api import get_ticketmaster_events
 from .ticketmaster_api import get_event_details
-from .forms import SearchForm
-
-
 
 # Create your views here.
 def home(request):
@@ -32,39 +30,6 @@ def event_search(request):
 def events_index(request):
     events = Event.objects.all()
     return render(request, 'events/index.html', {'events': events})
-
-
-# Api call events by keyword
-def events_view(request):
-    api_key = 'TwGGLlIhPr3PtugWAMYtjGdnJwGdQTYs'  # Add this to your ENV variables
-    keyword = 'music'  # default keyword
-    if request.method == 'POST':
-        form = SearchForm(request.POST)
-        if form.is_valid():
-            keyword = form.cleaned_data['keyword']
-    else:
-        form = SearchForm()
-
-    events_data = get_ticketmaster_events(api_key, keyword=keyword)
-    events = []
-
-    if events_data:
-        for event in events_data.get('_embedded', {}).get('events', []):
-            embedded = event.get('_embedded', {})
-            venues = embedded.get('venues') if embedded else []
-            venue_name = venues[0].get('name') if venues else None
-            event_info = {
-                'id': event.get('id'),
-                'name': event.get('name'),
-                'description': event.get('description'),
-                'date': event.get('dates', {}).get('start', {}).get('localDate'),
-                'time': event.get('dates', {}).get('start', {}).get('localTime'),
-                'image_url': event.get('images', [])[0].get('url') if event.get('images') else None,
-                'venue': venue_name
-            }
-            events.append(event_info)
-
-    return render(request, 'events/keyword.html', {'events': events, 'form': form})
 
 # Api call event by id
 def event_detail(request, event_id):
@@ -97,13 +62,6 @@ def event_detail(request, event_id):
         return render(request, 'events/categories/event_detail.html', {'event': event_info})
     else:
         return HttpResponse("Event not found or an error occurred.")
-
-
-
-
-def event_list(request):
-    events = get_events()
-    return render(request, 'events/event_list.html', {'events': events})
 
 
 
@@ -211,8 +169,13 @@ class SearchResultsList(EventList):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_title'] = 'Search Results'
+
+        # Get external api search results and send onto template
+        keyword = self.request.GET.get('keyword')
+        context['external_event_list'] = self.get_api_results_for_keyword(keyword)
+        
         return context
-  
+
     def get_queryset(self):
         q_objects = Q()
 
@@ -232,6 +195,31 @@ class SearchResultsList(EventList):
             q_objects &= Q(date__gte=datetime.date.today())
 
         return Event.objects.filter(q_objects)
+
+    def get_api_results_for_keyword(request, keyword):
+        api_key = 'TwGGLlIhPr3PtugWAMYtjGdnJwGdQTYs'  # Add this to your ENV variables
+        # keyword = 'music'  # default keyword
+
+        events_data = get_ticketmaster_events(api_key, keyword=keyword)
+        events = []
+
+        if events_data:
+            for event in events_data.get('_embedded', {}).get('events', []):
+                embedded = event.get('_embedded', {})
+                venues = embedded.get('venues') if embedded else []
+                venue_name = venues[0].get('name') if venues else None
+                event_info = {
+                    'id': event.get('id'),
+                    'name': event.get('name'),
+                    'description': event.get('description'),
+                    'date': event.get('dates', {}).get('start', {}).get('localDate'),
+                    'time': event.get('dates', {}).get('start', {}).get('localTime'),
+                    'image_url': event.get('images', [])[0].get('url') if event.get('images') else None,
+                    'venue': venue_name
+                }
+                events.append(event_info)
+
+        return events
 
 def signup(request):
   error_message = ''

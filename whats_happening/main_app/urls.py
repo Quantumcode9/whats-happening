@@ -1,8 +1,6 @@
 from django.urls import path
 from . import views
 from .views import venue_list 
-
-from .views import events_view
 from .views import event_detail
 
 
@@ -40,6 +38,5 @@ urlpatterns = [
 
     path('event/<int:event_id>/edit_reservation/<int:reservation_id>', views.edit_reservation, name='event_edit_reservation'),
 
-    path('events/keyword', events_view, name='events'),
     path('events/catagories/<event_id>/', event_detail, name='event_detail'),
 ]
