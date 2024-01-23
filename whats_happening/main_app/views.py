@@ -9,6 +9,7 @@ from django.db.models import Q
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
+from django.utils.dateparse import parse_date, parse_time
 
 from .models import Event, Venue, Reservation
 from .forms import EventForm, VenueForm, SearchForm 
@@ -120,6 +121,65 @@ class MyOwnedWithPastEventList(MyOwnedEventList):
         context['past_filter'] = 'show'
         return context
 
+class SearchResultsList(EventList):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Search Results'
+
+        # Get external api search results and send onto template
+        keyword = self.request.GET.get('keyword')
+        date = self.request.GET.get('date')
+        context['external_event_list'] = self.get_api_results_for_keyword(keyword, date)
+
+        return context
+
+    def get_queryset(self):
+        q_objects = Q()
+
+        # Keyword search checks event_name, venue_name, venue_description
+        keyword = self.request.GET.get('keyword')
+        if keyword:
+            q_objects |= Q(name__icontains=keyword)
+            q_objects |= Q(venue__name__icontains=keyword)
+            q_objects |= Q(venue__location__icontains=keyword)
+
+        # Search by date
+        date = self.request.GET.get('date')
+        if date:
+            q_objects &= Q(date__gte=date)
+        else:
+            # If no date picked, filter out past events
+            q_objects &= Q(date__gte=datetime.date.today())
+
+        return Event.objects.filter(q_objects)
+
+    def get_api_results_for_keyword(request, keyword, date):
+        api_key = 'TwGGLlIhPr3PtugWAMYtjGdnJwGdQTYs'  # Add this to your ENV variables
+        # keyword = 'music'  # default keyword
+
+        events_data = get_ticketmaster_events(api_key, keyword, date)
+        # print(events_data)
+        events = []
+
+        if events_data:
+            for event in events_data.get('_embedded', {}).get('events', []):
+                embedded = event.get('_embedded', {})
+                venues = embedded.get('venues') if embedded else []
+                venue_name = venues[0].get('name') if venues else None
+                event_info = {
+                    'id': event.get('id'),
+                    'name': event.get('name'),
+                    'description': event.get('description'),
+                    'date': parse_date(event.get('dates', {}).get('start', {}).get('localDate')),
+                    'time': parse_time(event.get('dates', {}).get('start', {}).get('localTime')),
+                    'image_url': event.get('images', [])[0].get('url') if event.get('images') else None,
+                    'venue': venue_name
+                }
+                events.append(event_info)
+
+        return events
+
+
 class DetailView(DetailView):
   model = Event
   template_name = 'events/detail.html'
@@ -165,61 +225,7 @@ def edit_reservation(request, event_id, reservation_id):
     # Redirect to event detail
     return redirect('detail', event_id=event_id)
 
-class SearchResultsList(EventList):
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['page_title'] = 'Search Results'
 
-        # Get external api search results and send onto template
-        keyword = self.request.GET.get('keyword')
-        context['external_event_list'] = self.get_api_results_for_keyword(keyword)
-        
-        return context
-
-    def get_queryset(self):
-        q_objects = Q()
-
-        # Keyword search checks event_name, venue_name, venue_description
-        keyword = self.request.GET.get('keyword')
-        if keyword:
-            q_objects |= Q(name__icontains=keyword)
-            q_objects |= Q(venue__name__icontains=keyword)
-            q_objects |= Q(venue__location__icontains=keyword)
-
-        # Search by date
-        date = self.request.GET.get('date')
-        if date:
-            q_objects &= Q(date=date)
-        else:
-            # If no date picked, filter out past events
-            q_objects &= Q(date__gte=datetime.date.today())
-
-        return Event.objects.filter(q_objects)
-
-    def get_api_results_for_keyword(request, keyword):
-        api_key = 'TwGGLlIhPr3PtugWAMYtjGdnJwGdQTYs'  # Add this to your ENV variables
-        # keyword = 'music'  # default keyword
-
-        events_data = get_ticketmaster_events(api_key, keyword=keyword)
-        events = []
-
-        if events_data:
-            for event in events_data.get('_embedded', {}).get('events', []):
-                embedded = event.get('_embedded', {})
-                venues = embedded.get('venues') if embedded else []
-                venue_name = venues[0].get('name') if venues else None
-                event_info = {
-                    'id': event.get('id'),
-                    'name': event.get('name'),
-                    'description': event.get('description'),
-                    'date': event.get('dates', {}).get('start', {}).get('localDate'),
-                    'time': event.get('dates', {}).get('start', {}).get('localTime'),
-                    'image_url': event.get('images', [])[0].get('url') if event.get('images') else None,
-                    'venue': venue_name
-                }
-                events.append(event_info)
-
-        return events
 
 def signup(request):
   error_message = ''

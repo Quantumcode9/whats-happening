@@ -37,7 +37,7 @@ class Event(models.Model):
     # recurrences = models.ForeignKey('Recurrences', on_delete=models.CASCADE, null=True, blank=True)
     # image = models.ImageField(upload_to='images/', blank=True)
 
-    # externalID
+    # api_event_id - character
     
     def __str__(self):
         return self.name
