@@ -216,15 +216,12 @@ class SearchResultsList(EventList):
     def get_queryset(self):
         q_objects = Q()
 
-        # Search by event_name
-        event_name = self.request.GET.get('event_name')
-        if event_name:
-            q_objects &= Q(name__icontains=event_name)
-        
-        # Search by venue
-        venue = self.request.GET.get('venue')
-        if venue:
-            q_objects &= Q(venue__name__icontains=venue)
+        # Keyword search checks event_name, venue_name, venue_description
+        keyword = self.request.GET.get('keyword')
+        if keyword:
+            q_objects |= Q(name__icontains=keyword)
+            q_objects |= Q(venue__name__icontains=keyword)
+            q_objects |= Q(venue__location__icontains=keyword)
 
         # Search by date
         date = self.request.GET.get('date')
