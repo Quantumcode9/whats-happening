@@ -25,3 +25,6 @@ class VenueForm(ModelForm):
         model = Venue
         fields = ['name', 'location', 'description']
 
+
+class SearchForm(forms.Form):
+    keyword = forms.CharField(label='Search', max_length=100)
