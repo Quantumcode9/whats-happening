@@ -24,30 +24,55 @@
     {% endif %}
 
     <div class="event-container">
-        {% for event in object_list %}
-            <div class="card hoverable">
+        {% if object_list or external_event_list %}
+            {% for event in object_list %}
                 <a href="{% url 'detail' event.id %}">
-                    <div class="card-content black-text">
-                        <span class="card-title black-text">{{ event.name }}</span>
-                        <p>
-                            {{ event.date }} at {{ event.time }} 
-                            {% if event.end_time %}
-                            - {{ event.end_time }}
-                            {% endif %}
-                        </p>
-                        {% if event.venue %}
-                            <p>{{ event.venue }}</p>
-                        {% endif %}
-
-                        {% if event.owner == user %}
-                            <p class="grey-text smaller-text"><i class="fas fa-key"></i> I own this event!</p>
-                        {% endif %}
+                    <div class="col-sm-4">
+                        <div class="event-card">
+                            <div class="card-body">
+                                <h3 class="card-title">{{ event.name }}</h3>
+                                <p class="card-text">
+                                    Date: {{ event.date }} Time: {{ event.time }}
+                                    {% if event.end_time %}
+                                        - {{ event.end_time }}
+                                    {% endif %}
+                                </p>
+                                {% if event.image_url %}
+                                    <img class="card-img-top" src="{{ event.image_url }}" alt="{{ event.name }}">
+                                {% endif %}
+                                <!-- we can add more event details here -->
+                                <p class="card-text">Venue: {{ event.venue }}</p>
+                                {% if event.owner == user %}
+                                    <p class="grey-text smaller-text"><i class="fas fa-key"></i> I own this event!</p>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                 </a>
+            {% endfor %}
+            
+            <div class="row">
+                {% for event in external_event_list %}
+                    <a href="{% url 'event_detail' event.id %}">
+                        <div class="col-sm-4">
+                            <div class="event-card">
+                                <div class="card-body">
+                                    <h3 class="card-title">{{ event.name }}</h3>
+                                    <p class="card-text">Date: {{ event.date }} Time: {{ event.time }}</p>
+                                    {% if event.image_url %}
+                                    <img class="card-img-top" src="{{ event.image_url }}" alt="{{ event.name }}">
+                                    {% endif %}
+                                    <!-- we can add more event details here -->
+                                    <p class="card-text">Venue: {{ event.venue }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
             </div>
-        {% empty %}
+        {% else %}
             <div class="card-panel red-text center-align">No Events Found</div>
-        {% endfor %}
+        {% endif %}
     </div>
         
 {% endblock %}
