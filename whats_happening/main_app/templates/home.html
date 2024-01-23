@@ -2,14 +2,7 @@
 {% load static %}
 {% block content %}
     <h1>HOME</h1>
-<h1>Event List</h1>
-    {% for event in events %}
-    <h2><a href="{{ event.url }}">{{ event.name.text }}</a></h2>
-    <img src="{{ event.logo.url }}" alt="{{ event.name.text }}">
-    <p>{{ event.description.text }}</p>
-    <p>Starts: {{ event.start.local }}</p>
-    <p>Ends: {{ event.end.local }}</p>
-{% endfor %}
+
 
 
 

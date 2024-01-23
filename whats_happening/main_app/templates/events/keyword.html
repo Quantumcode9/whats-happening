@@ -1,8 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Search">
+</form>
+
+
 {% if events %}
-    <h2>Events</h2>
+    <h1>Events</h1>
     <div class="row">
         {% for event in events %}
             <div class="col-sm-4">

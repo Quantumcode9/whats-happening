@@ -4,11 +4,11 @@
 <!-- details page  -->
 {% if event %}
 
-<h1 class="center-align">{{ event.name }} at {{ event.venue }}</h1>
+<h1 class="center-align"> <strong>{{ event.name }}</strong> at {{ event.venue }}</h1>
     {% if event.images|length > 1 %}
     <div class="profile-card">
     <!-- This is an array of images: {{ event.images }} 1 is the header-->
-        <img src="{{ event.images.1.url }}" alt="{{ event.name }}" class="profile-image">
+        <img src="{{ event.images.9.url }}" alt="{{ event.name }}" class="profile-image">
     </div>
     {% endif %}
 
@@ -31,7 +31,10 @@
             <div class="">
                 <div class = "card">
                     <div class="card-content"> 
+                        <h1>Event Description</h1>
+                        <p>{{ event.description }}</p>
                         <div class="external-links">
+  
                             {% for platform, links in event.externalLinks.items %}
                                 {% for link in links %}
                                     <p><strong>{{ platform|capfirst }}:</strong> <a href="{{ link.url }}" target="_blank">{{ link.url }}</a></p>

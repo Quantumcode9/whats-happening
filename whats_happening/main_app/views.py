@@ -14,6 +14,7 @@ from .forms import VenueForm
 from django.http import HttpResponse
 from .ticketmaster_api import get_ticketmaster_events
 from .ticketmaster_api import get_event_details
+from .forms import SearchForm
 
 
 
@@ -35,33 +36,39 @@ def events_index(request):
 
 # Api call events by keyword
 def events_view(request):
-   api_key = 'TwGGLlIhPr3PtugWAMYtjGdnJwGdQTYs'
-   events_data = get_ticketmaster_events(api_key, keyword="music")
-   ####
-   print(events_data)
-######
-   events = []
+    api_key = 'TwGGLlIhPr3PtugWAMYtjGdnJwGdQTYs'  # Add this to your ENV variables
+    keyword = 'music'  # default keyword
+    if request.method == 'POST':
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            keyword = form.cleaned_data['keyword']
+    else:
+        form = SearchForm()
 
-   if events_data:
-     for event in events_data.get('_embedded', {}).get('events', []):
-        embedded = event.get('_embedded', {})
-        venues = embedded.get('venues') if embedded else []
-        venue_name = venues[0].get('name') if venues else None
-        event_info = {
-            'id': event.get('id'),
-            'name': event.get('name'),
-            'date': event.get('dates', {}).get('start', {}).get('localDate'),
-            'time': event.get('dates', {}).get('start', {}).get('localTime'),
-            'image_url': event.get('images', [])[0].get('url') if event.get('images') else None,
-            'venue': venue_name
+    events_data = get_ticketmaster_events(api_key, keyword=keyword)
+    events = []
+
+    if events_data:
+        for event in events_data.get('_embedded', {}).get('events', []):
+            embedded = event.get('_embedded', {})
+            venues = embedded.get('venues') if embedded else []
+            venue_name = venues[0].get('name') if venues else None
+            event_info = {
+                'id': event.get('id'),
+                'name': event.get('name'),
+                'description': event.get('description'),
+                'date': event.get('dates', {}).get('start', {}).get('localDate'),
+                'time': event.get('dates', {}).get('start', {}).get('localTime'),
+                'image_url': event.get('images', [])[0].get('url') if event.get('images') else None,
+                'venue': venue_name
             }
-        events.append(event_info)
+            events.append(event_info)
 
-   return render(request, 'events/keyword.html', {'events': events})
+    return render(request, 'events/keyword.html', {'events': events, 'form': form})
 
 # Api call event by id
 def event_detail(request, event_id):
-    api_key = 'TwGGLlIhPr3PtugWAMYtjGdnJwGdQTYs'
+    api_key = 'TwGGLlIhPr3PtugWAMYtjGdnJwGdQTYs' 
     event_data = get_event_details(api_key, event_id)  
 #####
     # print(event_data)
@@ -69,6 +76,7 @@ def event_detail(request, event_id):
     if event_data:
         event_info = {
             'name': event_data.get('name'),
+            'description': event_data.get('description'),
             'images': event_data.get('images', []),
             'venue': event_data.get('_embedded', {}).get('venues', [])[0].get('name') if event_data.get('_embedded', {}).get('venues') else None,
             'externalLinks': {
