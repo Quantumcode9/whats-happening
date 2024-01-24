@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import date
+from django.utils import timezone
 
 
 # Create your models here.
@@ -43,5 +44,16 @@ class Event(models.Model):
     class Meta:
         ordering = ['date']
     
-    
+# class Photo(models.Model):
+#   image = models.ImageField(upload_to='photos/')
+#   description = models.TextField()
 
+# Associate with specific venues
+    
+class Photo(models.Model):
+    image_url = models.URLField()
+    description = models.TextField()
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Photo for event: {self.event.name} @{self.image_url}"

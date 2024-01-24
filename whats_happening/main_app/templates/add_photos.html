@@ -1,0 +1,17 @@
+<!-- add_event_photo.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Add Photo to Event: {{ event.name }}</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    
+    {{ form.as_p }}
+
+    <button type="submit">Add Photo</button>
+  </form>
+  
+  <a href="{% url 'event_detail' event_id=event.id %}">Back to Event Details</a>
+{% endblock %}
