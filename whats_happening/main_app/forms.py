@@ -29,9 +29,6 @@ class VenueForm(ModelForm):
 class SearchForm(forms.Form):
     keyword = forms.CharField(label='Search', max_length=100)
 
-class SearchForm(forms.Form):
-    keyword = forms.CharField(label='Search', max_length=100)
-
 class PhotoForm(forms.ModelForm):
     class Meta:
         model = Photo
