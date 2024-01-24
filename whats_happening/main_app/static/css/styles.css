@@ -1,9 +1,9 @@
 /* comment all changes made in here*/
 
-/* Comment this out if your having trouble seeing text outside containers  */
+/* Comment this out if you're having trouble seeing text outside containers  */
 body {
     background-color: #2d2d2d;
-    color : #fff;
+    color: #fff;
 }
 
 /* NAV & FOOTER */
@@ -29,6 +29,16 @@ nav .brand-logo {
     font-size: 30px;
     font-weight: 300;
     margin-left: 20px;
+    color: #fff;
+    text-decoration: none;
+    display: flex; /* Allow for flex layout */
+    align-items: center; /* Align items vertically */
+}
+
+/* Added styling for logo link to match h1 */
+nav .brand-logo a {
+    color: #fff;
+    text-decoration: none;
 }
 
 .flex-nav {
@@ -50,17 +60,17 @@ nav .brand-logo {
 .page-footer a {
     display: inline-block;
     margin: 10px;
-    color: inherit; 
+    color: inherit;
 }
 
 .page-footer a i {
-    font-size: 2em; 
-    display: block; 
+    font-size: 2em;
+    display: block;
 }
 
 .page-footer a span {
-    font-size: 0.8em; 
-    display: block; 
+    font-size: 0.8em;
+    display: block;
 }
 
 /* CONTAINERS */
@@ -94,9 +104,8 @@ nav .brand-logo {
     margin-top: 15px;
 }
 
-.event-container{
+.event-container {
     overflow: hidden;
-
 }
 
 
@@ -105,7 +114,7 @@ nav .brand-logo {
 .scroll-container {
     overflow-x: auto;
     white-space: nowrap;
-    padding-bottom: 20px; 
+    padding-bottom: 20px;
     background-color: rgba(0, 0, 0, 0.1);
 }
 
@@ -129,16 +138,16 @@ nav .brand-logo {
 
 /* TEXT */
 h1 {
-font-family: 'Roboto', sans-serif;
-font-weight: 300;
-font-size: 40px;
-margin: 0;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 40px;
+    margin: 0;
 }
 
 h2 {
-font-family: 'Roboto', sans-serif;
-font-size: 20px;
-margin: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    margin: 0;
 }
 
 p {
@@ -146,9 +155,7 @@ p {
     font-weight: 300;
     font-size: 20px;
     margin: 0;
-    }
-
-
+}
 
 /* CARDS */
 
@@ -186,22 +193,22 @@ p {
 .image-card {
     flex: 0 0 auto;
     margin-bottom: 20px;
-    margin-right: 15px; 
+    margin-right: 15px;
     margin-top: 20px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease-in-out;
-    width: 400px; 
-    height: auto; 
-    text-align: center; 
-    display: inline-block; 
-    font-size: 12px; 
-    overflow: hidden; 
+    width: 400px;
+    height: auto;
+    text-align: center;
+    display: inline-block;
+    font-size: 12px;
+    overflow: hidden;
     border-radius: 5px;
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-  /* Text ellipsis for overflowing text */
-.event-card h4, .event-card p{
+/* Text ellipsis for overflowing text */
+.event-card h4, .event-card p {
     margin-top: 5px;
     white-space: nowrap;
     overflow: hidden;
@@ -211,13 +218,12 @@ p {
 .hub-card:hover {
     transform: scale(1.05);
     transition: transform 0.3s ease-in-out;
-
 }
 
 .image-card:hover .image-card-img {
-        transform: scale(1.1);
-        transition: transform 0.3s ease-in-out;
-}  
+    transform: scale(1.1);
+    transition: transform 0.3s ease-in-out;
+}
 
 .profile-card {
     background-color: white;
@@ -242,7 +248,6 @@ p {
     font-size: small;
 }
 
-
 /* BUTTONS */
 /* go button */
 .top-right-fab {
@@ -252,13 +257,13 @@ p {
 }
 
 .logout-button {
-    margin-bottom: 30px; 
+    margin-bottom: 30px;
 }
 
 .options a {
     display: inline-block;
     margin: 10px;
-    color: inherit; 
+    color: inherit;
 }
 
 .disabled {
@@ -277,7 +282,6 @@ input[type=number] {
     -moz-appearance: textfield;
 }
 
-
 /* IMAGES */
 
 /* Event Image */
@@ -290,13 +294,12 @@ input[type=number] {
 
 /* Details page image */
 .image-card img {
-    max-width: 100%; 
-    height: auto; 
+    max-width: 100%;
+    height: auto;
     margin-bottom: 20px;
     margin-right: 5px;
     margin-top: 5px;
     margin-left: 5px;
-
 }
 
 /* MEDIA QUERIES */
@@ -304,40 +307,48 @@ input[type=number] {
 /* Footer Navbar Mobile Screens */
 @media screen and (max-width: 600px) {
     .page-footer a {
-        display: inline-block; 
-        text-align: space-between; 
+        display: inline-block;
+        text-align: space-between;
     }
-   .navbar-fixed a {
-        display: none; 
-    }
+
     .tm {
         display: none;
-    }  
+    }
+
+    /* Adjust the font size for smaller screens */
+    h1 {
+        font-size: 30px;
+    }
+
+    p {
+        font-size: 16px;
+    }
+
+    /* Adjust the logo size for smaller screens */
+    nav .brand-logo {
+        font-size: 24px;
+    }
+
+    .sidenav-trigger {
+        display: none;
+    }
+
 }
 
 /* For Larger Screens */
 @media screen and (min-width: 601px) {
     .page-footer a {
-        display: none; 
+        display: none;
     }
+
     .navbar-fixed a {
         display: inline-block;
-    } 
-}
-
-/* text for Mobile Screens */
-@media screen and (max-width: 600px) {
-    h1 {
-        font-size: 30px;
-    }   
-    p {
-        font-size: 16px;
     }
 }
 
-
-/* MISCELLANEOUS */
-
-
-
-
+/* Adjust the font size based on screen width */
+@media screen and (max-width: 600px) {
+    nav .brand-logo {
+        font-size: 24px; /* Adjust font size for smaller screens */
+    }
+}
