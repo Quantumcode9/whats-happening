@@ -4,6 +4,7 @@ from datetime import date
 from django.utils import timezone
 
 
+
 # Create your models here.
     
 class Venue(models.Model):
@@ -38,19 +39,12 @@ class Event(models.Model):
     # recurrences = models.ForeignKey('Recurrences', on_delete=models.CASCADE, null=True, blank=True)
     # image = models.ImageField(upload_to='images/', blank=True)
 
-    # api_event_id - character
     
     def __str__(self):
         return self.name
     
     class Meta:
         ordering = ['date']
-    
-# class Photo(models.Model):
-#   image = models.ImageField(upload_to='photos/')
-#   description = models.TextField()
-
-# Associate with specific venues
     
 class Photo(models.Model):
     image_url = models.URLField()

@@ -3,6 +3,7 @@ import uuid
 import boto3
 import os
 
+
 from botocore.exceptions import NoCredentialsError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
@@ -224,24 +225,30 @@ def assoc_external_reservation(request):
     reservation.save()
 
     # Add it to the event
-    # create an event from ticketmaster!
-
-
-    # 'image_url': event.get('images', [])[0].get('url') if event.get('images') else None,
-    # 'venue': venue_name
-
     event = Event()
     event.name = request.POST["name"]
     event.description = request.POST["description"]
     event.date = parse_date(request.POST["date"])
     event.time = parse_time(request.POST["time"])
     event.owner = User.objects.get(username='TheMachine')
+    event.venue = Venue.objects.get(name=request.POST["venue"])
     event.save()
+    
+    #get venue from api and save it to venue model
+    venue = Venue()
+    venue.name = request.POST["venue"]
+    venue.save()
+
+        # Save images
+        # for img in images:
+    photo = Photo(image_url=request.POST["photo_url"], event=event)
+    photo.save()
 
     event.reservations.add(reservation)
+    event.save()
 
     # Redirect to event detail
-    return redirect('detail', event_id=event.id)
+    return redirect('detail', event_id=event.id) 
 
 @login_required
 def unassoc_reservation(request, event_id, reservation_id):

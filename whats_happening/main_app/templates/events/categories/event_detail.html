@@ -64,6 +64,8 @@
                     <input type="hidden" name="date" value="{{ event.start_date}}">
                     <input type="hidden" name="time" value="{{ event.start_time}}">
                     <input type="hidden" name="id" value="{{ event.event_id}}">
+                    <input type="hidden" name="venue" value="{{ event.venue}}">
+                    <input type="hidden" name="photo_url" value="{{ event.images.1.url }}">
                     {% csrf_token %}           
                     <div class="row">
                         <div class="input-field col s4">
