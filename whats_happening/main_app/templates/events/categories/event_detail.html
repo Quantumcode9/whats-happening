@@ -57,7 +57,29 @@
                 </div>
             </div>
 
-           
+            <div class="row">
+                <form action="{% url 'assoc_external_reservation' %}" method="post">
+                    <input type="hidden" name="name" value="{{ event.name}}">
+                    <input type="hidden" name="description" value="{{ event.description}}">
+                    <input type="hidden" name="date" value="{{ event.start_date}}">
+                    <input type="hidden" name="time" value="{{ event.start_time}}">
+                    <input type="hidden" name="id" value="{{ event.event_id}}">
+                    {% csrf_token %}           
+                    <div class="row">
+                        <div class="input-field col s4">
+                            <a class="btn-floating btn waves-effect waves-light red white-text disabled" href="javascript:decrement()" id="minus-button">-</a>
+                        </div>
+                        <div class="input-field col s4">
+                            <label for="guests">Number of Guests:</label>
+                            <input type="number" name="guests" min="0" max="10" value="0" id="guests">
+                        </div>
+                        <div class="input-field col s4">
+                            <a class="btn-floating btn waves-effect waves-light white-text" href="javascript:increment()"" id="plus-button">+</a>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn"><i class="fas fa-calendar-plus"></i> I'm Going!</button>
+                </form>
+            </div>         
 
             
 

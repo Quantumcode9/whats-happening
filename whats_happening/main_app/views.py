@@ -10,6 +10,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.utils.dateparse import parse_date, parse_time
+from django.contrib.auth.models import User
 
 from .models import Event, Venue, Reservation
 from .forms import EventForm, VenueForm, SearchForm 
@@ -207,6 +208,34 @@ def assoc_reservation(request, event_id):
 
     # Redirect to event detail
     return redirect('detail', event_id=event_id)
+
+@login_required
+def assoc_external_reservation(request):
+    # Create the reservation
+    reservation = Reservation()
+    reservation.attendee = request.user
+    reservation.guests = request.POST["guests"]
+    reservation.save()
+
+    # Add it to the event
+    # create an event from ticketmaster!
+
+
+    # 'image_url': event.get('images', [])[0].get('url') if event.get('images') else None,
+    # 'venue': venue_name
+
+    event = Event()
+    event.name = request.POST["name"]
+    event.description = request.POST["description"]
+    event.date = parse_date(request.POST["date"])
+    event.time = parse_time(request.POST["time"])
+    event.owner = User.objects.get(username='TheMachine')
+    event.save()
+
+    event.reservations.add(reservation)
+
+    # Redirect to event detail
+    return redirect('detail', event_id=event.id)
 
 @login_required
 def unassoc_reservation(request, event_id, reservation_id):
