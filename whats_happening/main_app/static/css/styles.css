@@ -113,13 +113,10 @@ nav .brand-logo {
 .collapsible-header {
     font-size: large;
 }
-.left-align {
-    float: left;
-    width: 55%;
-}
+
 .right-align {
     float: right;
-    width: 43%;
+    font-size: large
 }
 
 /* TEXT */

@@ -39,6 +39,47 @@ def events_index(request):
     events = Event.objects.all()
     return render(request, 'events/index.html', {'events': events})
 
+# API call event search by keyword
+def parse_api_event_data(events_data):
+    events = []
+    if events_data:
+        for event in events_data.get('_embedded', {}).get('events', []):
+            embedded = event.get('_embedded', {})
+            venues = embedded.get('venues') if embedded else []
+            venue_name = venues[0].get('name') if venues else None
+            date_str = event.get('dates', {}).get('start', {}).get('localDate')
+            time_str = event.get('dates', {}).get('start', {}).get('localTime')
+            event_info = {
+                'id': event.get('id'),
+                'name': event.get('name'),
+                'description': event.get('description'),
+                'date': parse_date(date_str) if date_str else None,
+                'time': parse_time(time_str) if time_str else None,
+                'image_url': event.get('images', [])[0].get('url') if event.get('images') else None,
+                'venue': venue_name
+            }
+            events.append(event_info)
+
+    return events
+
+def get_api_results_for_keyword(keyword):
+    api_key = 'TwGGLlIhPr3PtugWAMYtjGdnJwGdQTYs'  # Add this to your ENV variables
+    # keyword = 'music'  # default keyword
+
+    events_data = get_ticketmaster_events(api_key, keyword)
+    # print(events_data)
+
+    return parse_api_event_data(events_data)
+
+def get_api_results_for_keyword_and_date(keyword, date):
+    api_key = 'TwGGLlIhPr3PtugWAMYtjGdnJwGdQTYs'  # Add this to your ENV variables
+    # keyword = 'music'  # default keyword
+
+    events_data = get_ticketmaster_events(api_key, keyword, date)
+    # print(events_data)
+    return parse_api_event_data(events_data)
+
+
 # Api call event by id
 def event_detail(request, event_id):
     api_key = 'TwGGLlIhPr3PtugWAMYtjGdnJwGdQTYs' 
@@ -136,8 +177,10 @@ class SearchResultsList(EventList):
         # Get external api search results and send onto template
         keyword = self.request.GET.get('keyword')
         date = self.request.GET.get('date')
-        context['external_event_list'] = self.get_api_results_for_keyword(keyword, date)
-
+        if date:
+            context['external_event_list'] = get_api_results_for_keyword_and_date(keyword, date)
+        else: 
+            context['external_event_list'] = get_api_results_for_keyword(keyword)
         return context
 
     def get_queryset(self):
@@ -159,32 +202,6 @@ class SearchResultsList(EventList):
             q_objects &= Q(date__gte=datetime.date.today())
 
         return Event.objects.filter(q_objects)
-
-    def get_api_results_for_keyword(request, keyword, date):
-        api_key = 'TwGGLlIhPr3PtugWAMYtjGdnJwGdQTYs'  # Add this to your ENV variables
-        # keyword = 'music'  # default keyword
-
-        events_data = get_ticketmaster_events(api_key, keyword, date)
-        # print(events_data)
-        events = []
-
-        if events_data:
-            for event in events_data.get('_embedded', {}).get('events', []):
-                embedded = event.get('_embedded', {})
-                venues = embedded.get('venues') if embedded else []
-                venue_name = venues[0].get('name') if venues else None
-                event_info = {
-                    'id': event.get('id'),
-                    'name': event.get('name'),
-                    'description': event.get('description'),
-                    'date': parse_date(event.get('dates', {}).get('start', {}).get('localDate')),
-                    'time': parse_time(event.get('dates', {}).get('start', {}).get('localTime')),
-                    'image_url': event.get('images', [])[0].get('url') if event.get('images') else None,
-                    'venue': venue_name
-                }
-                events.append(event_info)
-
-        return events
 
 
 class DetailView(DetailView):
@@ -360,4 +377,10 @@ def add_event_photo(request, event_id):
 def event_hub(request):
     my_owned_events = Event.objects.filter(owner=request.user, date__gte=datetime.date.today())
     my_rsvp_events = Event.objects.filter(reservations__attendee=request.user, date__gte=datetime.date.today())
-    return render(request, 'events/hub.html', { 'my_owned_events': my_owned_events, 'my_rsvp_events': my_rsvp_events })
+    keyword = "luke combs"
+    pref_events = get_api_results_for_keyword(keyword)
+    return render(request, 'events/hub.html', { 
+        'my_owned_events': my_owned_events, 
+        'my_rsvp_events': my_rsvp_events, 
+        'pref_events': pref_events
+    })

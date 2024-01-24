@@ -1,6 +1,6 @@
 import requests
 
-def get_ticketmaster_events(api_key, keyword, startDateTime, size=10):
+def get_ticketmaster_events(api_key, keyword, startDateTime=None, size=10):
     url = "https://app.ticketmaster.com/discovery/v2/events.json"
     params = {
         'apikey': api_key,
