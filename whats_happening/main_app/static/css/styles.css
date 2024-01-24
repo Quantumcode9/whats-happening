@@ -108,6 +108,7 @@ nav .brand-logo a {
     overflow: hidden;
 }
 
+
 /* scroll container */
 
 .scroll-container {
@@ -115,6 +116,24 @@ nav .brand-logo a {
     white-space: nowrap;
     padding-bottom: 20px;
     background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* collapsible */
+.collapsible-header {
+    font-size: large;
+}
+
+.right-align {
+    float: right;
+    font-size: large
+}
+
+.hub-link {
+    font-weight: 300;
+    font-size: 14px;
+    margin: 0;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    
 }
 
 /* TEXT */

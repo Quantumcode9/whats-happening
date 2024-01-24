@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Event, Venue, Photo
+from .models import Event, Venue, Photo, Profile
 
 
 class EventForm(ModelForm):
@@ -33,3 +33,8 @@ class PhotoForm(forms.ModelForm):
     class Meta:
         model = Photo
         fields = ['image_url', 'description']
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['keyword']
