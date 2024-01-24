@@ -6,7 +6,10 @@
     <br>
     <ul class="collapsible popout" data-collapsible="popout">
         <li>
-            <div class="collapsible-header"><i class="fas fa-chevron-right"></i>I'm planning...</div>
+            <div class="collapsible-header">
+                <div class="left-align"><i class="fas fa-chevron-right"></i>I'm planning...</div>
+                <div class="right-align black-text"><a href="{% url 'events_create' %}"><i class="fas fa-plus black-text"></i></a></div>
+            </div>
             <div class="collapsible-body grey lighten-2">
                 {% for event in my_owned_events %}
                     <a href="{% url 'detail' event.id %}">

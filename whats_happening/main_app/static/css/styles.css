@@ -109,6 +109,18 @@ nav .brand-logo {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
+/* collapsible */
+.collapsible-header {
+    font-size: large;
+}
+.left-align {
+    float: left;
+    width: 55%;
+}
+.right-align {
+    float: right;
+    width: 43%;
+}
 
 /* TEXT */
 h1 {
