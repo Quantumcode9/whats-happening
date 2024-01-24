@@ -8,6 +8,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Q
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -16,8 +18,8 @@ from django.views.generic.detail import DetailView
 from django.utils.dateparse import parse_date, parse_time
 from django.contrib.auth.models import User
 
-from .models import Event, Venue, Reservation
-from .forms import EventForm, VenueForm, SearchForm 
+from .models import Event, Venue, Reservation, Profile
+from .forms import EventForm, VenueForm, SearchForm, ProfileForm 
 from .forms import PhotoForm 
 from .models import Photo
 
@@ -384,3 +386,17 @@ def event_hub(request):
         'my_rsvp_events': my_rsvp_events, 
         'pref_events': pref_events
     })
+
+class ProfileCreate(LoginRequiredMixin, CreateView):
+    model = Profile
+    fields = [ 'keyword' ]
+
+    def form_valid(self, form):
+        profile = form.save(commit=False)
+        profile.user = self.request.user
+        return super(ProfileCreate, self).form_valid(form)
+        # return http.HttpResponseRedirect(self.get_success_url())
+
+class ProfileUpdate(LoginRequiredMixin, UpdateView):
+    model = Profile
+    fields = [ 'keyword' ]

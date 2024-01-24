@@ -74,6 +74,15 @@
                 <i class="fas fa-chevron-right"></i>I could go...
             </div>
             <div class="collapsible-body grey lighten-2">
+
+                <div class="right-align black-text">
+                    {% if user.profile %}
+                        <a href="{% url 'profile_update' user.profile.id %}"><i class="fas fa-plus black-text"></i></a>
+                    {% else %}
+                        <a href="{% url 'profile_create' %}"><i class="fas fa-plus black-text"></i></a>
+                    {% endif %}
+                    <br>&nbsp;
+                </div>
                 {% for event in pref_events %}
                     <a href="{% url 'event_detail' event.id %}">
                         <div class="event-card">

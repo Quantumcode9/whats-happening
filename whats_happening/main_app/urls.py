@@ -41,4 +41,7 @@ urlpatterns = [
 
     path('events/<int:event_id>/add_photo/', views.add_event_photo, name='add_event_photo'),
     path('events/catagories/<event_id>/', event_detail, name='event_detail'),
+
+    path('profile/create/', views.ProfileCreate.as_view(), name='profile_create'),
+    path('profile/<int:pk>/update/', views.ProfileUpdate.as_view(), name='profile_update'),
 ]
