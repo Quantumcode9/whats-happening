@@ -27,9 +27,9 @@
                         <li><a href="{% url 'about' %}">About</a></li>
                         {% if user.is_authenticated %}
                             <li><a href="{% url 'events_create' %}">Add Event</a></li>
-                            <li><a href="{% url 'index' %}">All Events</a></li>
+                            <li><a href="{% url 'hub' %}">My Event Hub</a></li>
                             <li><a href="{% url 'search' %}">Search Events</a></li>
-                            <li><a href="{% url 'myindex' %}">My Events</a></li>
+                            <!-- <li><a href="{% url 'myindex' %}">My Events</a></li> -->
                                 <!-- New link for Venues -->
                             <li><a href="{% url 'venue_list' %}">Venues</a></li>
                             <li>
@@ -56,9 +56,9 @@
             <a href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a>
             <a href="{% url 'about' %}"><i class="fas fa-info-circle"></i> About</a>
             <a href="{% url 'events_create' %}"><i class="fas fa-calendar-plus"></i> Add Event</a>
-            <a href="{% url 'index' %}"><i class="fas fa-calendar-alt"></i> All Events</a>
+            <a href="{% url 'hub' %}"><i class="fas fa-calendar-alt"></i> My Event Hub</a>
             <a href="{% url 'search' %}"><i class="fas fa-search"></i> Search Events</a>
-            <a href="{% url 'myindex' %}"><i class="fas fa-calendar-check"></i> My Events</a>
+            <!-- <a href="{% url 'myindex' %}"><i class="fas fa-calendar-check"></i> My Events</a> -->
         <div class="tm right">
             All Rights Reserved, &copy; 2024 What's Happening &nbsp;
         </div>
