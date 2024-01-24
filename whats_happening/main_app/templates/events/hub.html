@@ -6,12 +6,13 @@
     <br>
     <ul class="collapsible popout" data-collapsible="popout">
         <li>
+
             <div class="collapsible-header">
                 <div class="left-align"><i class="fas fa-chevron-right"></i>I'm planning...</div>
             </div>
             <div class="collapsible-body grey lighten-2">
                 <div class="right-align black-text">
-                    <a href="{% url 'events_create' %}"><i class="fas fa-plus black-text"></i></a>
+                    <a href="{% url 'events_create' %}"><i class="fas fa-plus black-text"> <span class="hub-link">Create Event</span></i></a>
                     <br>&nbsp;
                 </div>
                 {% for event in my_owned_events %}
@@ -34,6 +35,7 @@
                         </div>
                     </a>
                 {% empty %}
+                    <br>&nbsp;
                     <div class="card-panel red-text center-align">You have no upcoming events that you are planning yet</div>
                 {% endfor %}
 
@@ -65,11 +67,11 @@
                         </div>
                     </a>
                 {% empty %}
-                    <div class="card-panel red-text center-align">You have no upcoming events that you are going to yet</div>
+                    <div class="card-panel red-text center-align">You have no upcoming events that you have reservations for</div>
                 {% endfor %}
             </div>
         </li>
-        <li>
+        <li class="active">
             <div class="collapsible-header">
                 <i class="fas fa-chevron-right"></i>I could go...
             </div>
@@ -77,9 +79,9 @@
 
                 <div class="right-align black-text">
                     {% if user.profile %}
-                        <a href="{% url 'profile_update' user.profile.id %}"><i class="fas fa-plus black-text"></i></a>
+                        <a href="{% url 'profile_update' user.profile.id %}" alt="Update Profile"><i class="fas fa-pen black-text"> <span class="hub-link">Update Profile</span></i></a>
                     {% else %}
-                        <a href="{% url 'profile_create' %}"><i class="fas fa-plus black-text"></i></a>
+                        <a href="{% url 'profile_create' %}"><i class="fas fa-pen black-text"> <span class="hub-link">Add Profile</span></i></a>
                     {% endif %}
                     <br>&nbsp;
                 </div>
@@ -106,7 +108,7 @@
                         </div>
                     </a>
                 {% empty %}
-                    <div class="card-panel red-text center-align">You have no upcoming events that you are going to yet</div>
+                    <div class="card-panel red-text center-align">No events found for your profile keyword</div>
                 {% endfor %}
             </div>
 

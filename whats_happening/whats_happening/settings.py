@@ -34,8 +34,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-EVENTBRITE_API_KEY = os.getenv('EVENTBRITE_API_KEY')
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -86,12 +84,12 @@ WSGI_APPLICATION = 'whats_happening.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'neondb',
-        'USER': 'rebeccakiefer8',
-        'PASSWORD': 'VSCEZOyKn1u4',
-        'HOST': 'ep-little-glade-a5u13whp.us-east-2.aws.neon.tech',
-        'PORT': '5432',
+        'ENGINE': os.environ['DB_ENGINE'],
+        'NAME': os.environ['DB_NAME'],
+        'USER': os.environ['DB_USER'],
+        'PASSWORD': os.environ['DB_PASSWORD'],
+        'HOST': os.environ['DB_HOST'],
+        'PORT': os.environ['DB_PORT'],
     }
 }
 

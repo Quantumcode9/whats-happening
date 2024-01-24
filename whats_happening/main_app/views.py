@@ -65,27 +65,16 @@ def parse_api_event_data(events_data):
     return events
 
 def get_api_results_for_keyword(keyword):
-    api_key = 'TwGGLlIhPr3PtugWAMYtjGdnJwGdQTYs'  # Add this to your ENV variables
-    # keyword = 'music'  # default keyword
-
-    events_data = get_ticketmaster_events(api_key, keyword)
-    # print(events_data)
-
+    events_data = get_ticketmaster_events(keyword)
     return parse_api_event_data(events_data)
 
 def get_api_results_for_keyword_and_date(keyword, date):
-    api_key = 'TwGGLlIhPr3PtugWAMYtjGdnJwGdQTYs'  # Add this to your ENV variables
-    # keyword = 'music'  # default keyword
-
-    events_data = get_ticketmaster_events(api_key, keyword, date)
-    # print(events_data)
+    events_data = get_ticketmaster_events(keyword, date)
     return parse_api_event_data(events_data)
-
 
 # Api call event by id
 def event_detail(request, event_id):
-    api_key = 'TwGGLlIhPr3PtugWAMYtjGdnJwGdQTYs' 
-    event_data = get_event_details(api_key, event_id)  
+    event_data = get_event_details(event_id)  
 #####
     # print(event_data)
 #####
@@ -379,7 +368,7 @@ def add_event_photo(request, event_id):
 def event_hub(request):
     my_owned_events = Event.objects.filter(owner=request.user, date__gte=datetime.date.today())
     my_rsvp_events = Event.objects.filter(reservations__attendee=request.user, date__gte=datetime.date.today())
-    keyword = "luke combs"
+    keyword = request.user.profile.keyword if request.user.profile.keyword else "music"
     pref_events = get_api_results_for_keyword(keyword)
     return render(request, 'events/hub.html', { 
         'my_owned_events': my_owned_events, 

@@ -1,9 +1,10 @@
 import requests
+import os
 
-def get_ticketmaster_events(api_key, keyword, startDateTime=None, size=10):
-    url = "https://app.ticketmaster.com/discovery/v2/events.json"
+def get_ticketmaster_events(keyword, startDateTime=None, size=10):
+    url = os.environ['API_BASE_URL'] + "events.json"
     params = {
-        'apikey': api_key,
+        'apikey': os.environ['API_KEY'],
         'size': size,
         'sort': 'date,asc'
     }
@@ -20,9 +21,9 @@ def get_ticketmaster_events(api_key, keyword, startDateTime=None, size=10):
     
 
 #Details 
-def get_event_details(api_key, event_id):
-    url = f"https://app.ticketmaster.com/discovery/v2/events/{event_id}.json"
-    params = {'apikey': api_key}
+def get_event_details(event_id):
+    url = os.environ['API_BASE_URL'] + f"events/{event_id}.json"
+    params = {'apikey': os.environ['API_KEY']}
     response = requests.get(url, params=params)
     if response.status_code == 200:
         return response.json()  

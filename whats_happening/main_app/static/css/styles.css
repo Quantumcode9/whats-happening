@@ -119,6 +119,14 @@ nav .brand-logo {
     font-size: large
 }
 
+.hub-link {
+    font-weight: 300;
+    font-size: 14px;
+    margin: 0;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    
+}
+
 /* TEXT */
 h1 {
 font-family: 'Roboto', sans-serif;
