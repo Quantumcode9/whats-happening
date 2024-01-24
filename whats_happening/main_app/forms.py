@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Event, Venue
+from .models import Event, Venue, Photo
 
 
 class EventForm(ModelForm):
@@ -28,3 +28,11 @@ class VenueForm(ModelForm):
 
 class SearchForm(forms.Form):
     keyword = forms.CharField(label='Search', max_length=100)
+
+class SearchForm(forms.Form):
+    keyword = forms.CharField(label='Search', max_length=100)
+
+class PhotoForm(forms.ModelForm):
+    class Meta:
+        model = Photo
+        fields = ['image_url', 'description']

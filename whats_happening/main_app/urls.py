@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 from .views import venue_list 
+from .views import add_event_photo
 from .views import event_detail
 
 
@@ -39,5 +40,6 @@ urlpatterns = [
 
     path('event/<int:event_id>/edit_reservation/<int:reservation_id>', views.edit_reservation, name='event_edit_reservation'),
 
+    path('events/<int:event_id>/add_photo/', views.add_event_photo, name='add_event_photo'),
     path('events/catagories/<event_id>/', event_detail, name='event_detail'),
 ]

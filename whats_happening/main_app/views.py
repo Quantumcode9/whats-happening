@@ -1,5 +1,9 @@
 import datetime
+import uuid
+import boto3
+import os
 
+from botocore.exceptions import NoCredentialsError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth import login
@@ -14,6 +18,8 @@ from django.contrib.auth.models import User
 
 from .models import Event, Venue, Reservation
 from .forms import EventForm, VenueForm, SearchForm 
+from .forms import PhotoForm 
+from .models import Photo
 
 from .ticketmaster_api import get_ticketmaster_events
 from .ticketmaster_api import get_event_details
@@ -190,7 +196,7 @@ def event_detail_model(request, event_id):
     event = Event.objects.get(id=event_id)
     try:
       reservation = event.reservations.get(attendee=request.user)
-      print(reservation)
+      print(event)
       return render(request, 'events/detail.html', {'event': event, 'reservation': reservation})
     except Reservation.DoesNotExist: 
       return render(request, 'events/detail.html', {'event': event})
@@ -331,3 +337,26 @@ def venue_delete(request, pk):
     venue = get_object_or_404(Venue, pk=pk)
     venue.delete()
     return redirect('venue_list')
+
+def add_event_photo(request, event_id):
+    event = Event.objects.get(pk=event_id)
+    photo_file = request.FILES.get('photo-file', None)
+
+    if not os.environ.get('S3_BUCKET'):
+        print('S3_BUCKET environment variable is not defined.')
+        return redirect('event_detail', event_id=event_id)
+
+    if photo_file:
+        try:
+            s3 = boto3.client('s3')
+            key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+            bucket = os.environ['S3_BUCKET']
+            s3.upload_fileobj(photo_file, bucket, key)
+            url = f"{os.environ['S3_BASE_URL']}{bucket}/{key}"
+            Photo.objects.create(image_url=url, description="Your description here", event_id=event_id)
+        except Exception as e:
+            print('An error occurred uploading file to S3')
+            print(e)
+
+    return redirect('event_detail', event_id=event_id)
+       
