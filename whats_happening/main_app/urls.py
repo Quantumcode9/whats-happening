@@ -12,6 +12,7 @@ urlpatterns = [
     
     path('events/<int:event_id>/', views.event_detail_model, name='detail'),
     path('events/', views.EventList.as_view(), name='index'),
+    path('events/hub/', views.event_hub, name="hub"),
     path('events/mine/', views.MyEventList.as_view(), name='myindex'),
     path('events/mine/include_past', views.MyWithPastEventList.as_view(), name='myindex_withpast'),
     path('events/myowned/', views.MyOwnedEventList.as_view(), name='myownedindex'),

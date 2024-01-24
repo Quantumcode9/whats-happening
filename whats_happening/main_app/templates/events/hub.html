@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <br>
+    <h1>My Event Hub</h1>
+    <br>
+    <ul class="collapsible popout" data-collapsible="popout">
+        <li>
+            <div class="collapsible-header"><i class="fas fa-chevron-right"></i>I'm planning...</div>
+            <div class="collapsible-body grey lighten-2">
+                {% for event in my_owned_events %}
+                    <a href="{% url 'detail' event.id %}">
+                        <div class="event-card">
+                            <div class="card-body">
+                                <h4 class="card-title">{{ event.name }}</h4>
+                                <p class="card-text">
+                                    Date: {{ event.date }} Time: {{ event.time }}
+                                    {% if event.end_time %}
+                                        - {{ event.end_time }}
+                                    {% endif %}
+                                </p>
+                                {% if event.image_url %}
+                                    <img class="card-img-top" src="{{ event.image_url }}" alt="{{ event.name }}">
+                                {% endif %}
+                                <!-- we can add more event details here -->
+                                <p class="card-text">Venue: {{ event.venue }}</p>
+                            </div>
+                        </div>
+                    </a>
+                {% empty %}
+                    <div class="card-panel red-text center-align">You have no upcoming events that you are planning yet</div>
+                {% endfor %}
+
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header"><i class="fas fa-chevron-right"></i>I'm going to...</div>
+            <div class="collapsible-body grey lighten-2">
+                {% for event in my_rsvp_events %}
+                    <a href="{% url 'detail' event.id %}">
+                        <div class="event-card">
+                            <div class="card-body">
+                                <h4 class="card-title">{{ event.name }}</h4>
+                                <p class="card-text">
+                                    Date: {{ event.date }} Time: {{ event.time }}
+                                    {% if event.end_time %}
+                                        - {{ event.end_time }}
+                                    {% endif %}
+                                </p>
+                                {% if event.image_url %}
+                                    <img class="card-img-top" src="{{ event.image_url }}" alt="{{ event.name }}">
+                                {% endif %}
+                                <!-- we can add more event details here -->
+                                <p class="card-text">Venue: {{ event.venue }}</p>
+                                {% if event.owner == user %}
+                                    <p class="grey-text smaller-text"><i class="fas fa-key"></i> I own this event!</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </a>
+                {% empty %}
+                    <div class="card-panel red-text center-align">You have no upcoming events that you are going to yet</div>
+                {% endfor %}
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header"><i class="fas fa-chevron-right"></i>I could go...</div>
+            <div class="collapsible-body">
+                cards here???
+            </div>
+        </li>    
+    </ul>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const elems = document.querySelectorAll('.collapsible');
+            const instances = M.Collapsible.init(elems, {});
+        });
+    </script>
+{% endblock %}

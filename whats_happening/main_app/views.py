@@ -355,3 +355,9 @@ def add_event_photo(request, event_id):
             print(e)
 
     return redirect('detail', event_id=event_id)
+
+
+def event_hub(request):
+    my_owned_events = Event.objects.filter(owner=request.user, date__gte=datetime.date.today())
+    my_rsvp_events = Event.objects.filter(reservations__attendee=request.user, date__gte=datetime.date.today())
+    return render(request, 'events/hub.html', { 'my_owned_events': my_owned_events, 'my_rsvp_events': my_rsvp_events })
