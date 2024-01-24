@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <br>
+    <h1>My Event Hub</h1>
+    <br>
+    <ul class="collapsible popout" data-collapsible="popout">
+        <li>
+
+            <div class="collapsible-header">
+                <div class="left-align"><i class="fas fa-chevron-right"></i>I'm planning...</div>
+            </div>
+            <div class="collapsible-body grey lighten-2">
+                <div class="right-align black-text">
+                    <a href="{% url 'events_create' %}"><i class="fas fa-plus black-text"> <span class="hub-link">Create Event</span></i></a>
+                    <br>&nbsp;
+                </div>
+                {% for event in my_owned_events %}
+                    <a href="{% url 'detail' event.id %}">
+                        <div class="event-card">
+                            <div class="card-body">
+                                <h4 class="card-title">{{ event.name }}</h4>
+                                <p class="card-text">
+                                    Date: {{ event.date }} Time: {{ event.time }}
+                                    {% if event.end_time %}
+                                        - {{ event.end_time }}
+                                    {% endif %}
+                                </p>
+                                {% if event.image_url %}
+                                    <img class="card-img-top" src="{{ event.image_url }}" alt="{{ event.name }}">
+                                {% endif %}
+                                <!-- we can add more event details here -->
+                                <p class="card-text">Venue: {{ event.venue }}</p>
+                            </div>
+                        </div>
+                    </a>
+                {% empty %}
+                    <br>&nbsp;
+                    <div class="card-panel red-text center-align">You have no upcoming events that you are planning yet</div>
+                {% endfor %}
+
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header"><i class="fas fa-chevron-right"></i>I'm going to...</div>
+            <div class="collapsible-body grey lighten-2">
+                {% for event in my_rsvp_events %}
+                    <a href="{% url 'detail' event.id %}">
+                        <div class="event-card">
+                            <div class="card-body">
+                                <h4 class="card-title">{{ event.name }}</h4>
+                                <p class="card-text">
+                                    Date: {{ event.date }} Time: {{ event.time }}
+                                    {% if event.end_time %}
+                                        - {{ event.end_time }}
+                                    {% endif %}
+                                </p>
+                                {% if event.image_url %}
+                                    <img class="card-img-top" src="{{ event.image_url }}" alt="{{ event.name }}">
+                                {% endif %}
+                                <!-- we can add more event details here -->
+                                <p class="card-text">Venue: {{ event.venue }}</p>
+                                {% if event.owner == user %}
+                                    <p class="grey-text smaller-text"><i class="fas fa-key"></i> I own this event!</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </a>
+                {% empty %}
+                    <div class="card-panel red-text center-align">You have no upcoming events that you have reservations for</div>
+                {% endfor %}
+            </div>
+        </li>
+        <li class="active">
+            <div class="collapsible-header">
+                <i class="fas fa-chevron-right"></i>I could go...
+            </div>
+            <div class="collapsible-body grey lighten-2">
+
+                <div class="right-align black-text">
+                    {% if user.profile %}
+                        <a href="{% url 'profile_update' user.profile.id %}" alt="Update Profile"><i class="fas fa-pen black-text"> <span class="hub-link">Update Profile</span></i></a>
+                    {% else %}
+                        <a href="{% url 'profile_create' %}"><i class="fas fa-pen black-text"> <span class="hub-link">Add Profile</span></i></a>
+                    {% endif %}
+                    <br>&nbsp;
+                </div>
+                {% for event in pref_events %}
+                    <a href="{% url 'event_detail' event.id %}">
+                        <div class="event-card">
+                            <div class="card-body">
+                                <h4 class="card-title">{{ event.name }}</h4>
+                                <p class="card-text">
+                                    Date: {{ event.date }} Time: {{ event.time }}
+                                    {% if event.end_time %}
+                                        - {{ event.end_time }}
+                                    {% endif %}
+                                </p>
+                                {% if event.image_url %}
+                                    <img class="card-img-top" src="{{ event.image_url }}" alt="{{ event.name }}">
+                                {% endif %}
+                                <!-- we can add more event details here -->
+                                <p class="card-text">Venue: {{ event.venue }}</p>
+                                {% if event.owner == user %}
+                                    <p class="grey-text smaller-text"><i class="fas fa-key"></i> I own this event!</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </a>
+                {% empty %}
+                    <div class="card-panel red-text center-align">No events found for your profile keyword</div>
+                {% endfor %}
+            </div>
+
+        </li>    
+    </ul>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const elems = document.querySelectorAll('.collapsible');
+            const instances = M.Collapsible.init(elems, {});
+        });
+    </script>
+{% endblock %}
