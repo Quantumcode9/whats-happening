@@ -10,8 +10,6 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('about/', views.about, name='about'),
     
-
-#    path('events/', views.events_index, name='index'),
     path('events/<int:event_id>/', views.event_detail_model, name='detail'),
     path('events/', views.EventList.as_view(), name='index'),
     path('events/mine/', views.MyEventList.as_view(), name='myindex'),

@@ -342,10 +342,6 @@ def add_event_photo(request, event_id):
     event = Event.objects.get(pk=event_id)
     photo_file = request.FILES.get('photo-file', None)
 
-    if not os.environ.get('S3_BUCKET'):
-        print('S3_BUCKET environment variable is not defined.')
-        return redirect('event_detail', event_id=event_id)
-
     if photo_file:
         try:
             s3 = boto3.client('s3')
@@ -358,5 +354,4 @@ def add_event_photo(request, event_id):
             print('An error occurred uploading file to S3')
             print(e)
 
-    return redirect('event_detail', event_id=event_id)
-       
+    return redirect('detail', event_id=event_id)
