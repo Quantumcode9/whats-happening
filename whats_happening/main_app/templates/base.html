@@ -9,18 +9,19 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/font?family=Cormorant+Garamond:300,400,500,600,700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <body>
 <header class="navbar-fixed top-nav">
     <nav>
         <div class="nav-wrapper">
-            <!-- Brand Logo and Mobile Menu Trigger -->
-            <a href="{% url 'home' %}" class="brand-logo left">What's Happening</a>
+            <a href="{% url 'home' %}" class="brand-logo left" style="font-style: italic;">What's Happening</a>
             <a href="#" data-target="mobile-menu" class="sidenav-trigger right"><i class="fas fa-bars"></i></a>
             <!-- Navigation Links -->
             <ul class="right hide-on-med-and-down">
-                <!-- Your existing navigation links go here -->
                 <li><a href="{% url 'about' %}">About</a></li>
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'events_create' %}">Add Event</a></li>
@@ -44,8 +45,7 @@
 </header>
 
 <!-- Mobile Navigation (Collapsible) -->
-<ul class="sidenav" id="mobile-menu">
-    <!-- Your existing navigation links go here -->
+<ul class="sidenav transparent-nav" id="mobile-menu">
     <li><a href="{% url 'about' %}">About</a></li>
     {% if user.is_authenticated %}
         <li><a href="{% url 'events_create' %}">Add Event</a></li>
@@ -71,12 +71,17 @@
 </main>
 
 <footer class="page-footer">
-    <!-- Your existing footer content goes here -->
-    <a href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a>
     <a href="{% url 'about' %}"><i class="fas fa-info-circle"></i> About</a>
     <a href="{% url 'events_create' %}"><i class="fas fa-calendar-plus"></i> Add Event</a>
     <a href="{% url 'hub' %}"><i class="fas fa-calendar-alt"></i> My Event Hub</a>
     <a href="{% url 'search' %}"><i class="fas fa-search"></i> Search Events</a>
+    <a href="#" onclick="document.getElementById('logout-form').submit(); return false;">
+        <i class="fas fa-sign-out-alt"></i> Log Out
+    </a>
+    <form id="logout-form" method="post" action="{% url 'logout' %}" style="display: none;">
+        {% csrf_token %}
+    </form>
+    </form>
     <!-- <a href="{% url 'myindex' %}"><i class="fas fa-calendar-check"></i> My Events</a> -->
     <div class="tm right">
         All Rights Reserved, &copy; 2024 What's Happening &nbsp;
@@ -89,6 +94,8 @@
         var elems = document.querySelectorAll('.sidenav');
         var instances = M.Sidenav.init(elems);
     });
+
+
 </script>
 
 </body>
