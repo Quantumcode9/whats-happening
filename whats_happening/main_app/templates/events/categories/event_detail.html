@@ -100,8 +100,27 @@
 </div>
 
 
+<script>
+    const minusBtnEl = document.getElementById("minus-button")
+    const guestCountEl = document.getElementById("guests")
+    const plusBtnEl = document.getElementById("plus-button")
+    let guestNum = 0
 
-        
+    function increment() {
+        guestCountEl.stepUp()
+        minusBtnEl.classList.remove("disabled")
+        if (guestCountEl.value >= 10) {
+            plusBtnEl.classList.add("disabled")
+        }
+    }
+    function decrement() {
+        guestCountEl.stepDown()
+        plusBtnEl.classList.remove("disabled")
+        if (guestCountEl.value == 0) {
+            minusBtnEl.classList.add("disabled")
+        }
+    }
+</script>
 
 {% endblock %}
 
