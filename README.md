@@ -6,6 +6,10 @@ An event planner for everyone!
 
 Event search not only searches all the events created within What's Happening, it also searches Ticketmaster using the Ticketmaster Discovery API v2
 
+## Getting Started
+
+https://whats-happening.onrender.com/
+
 ## User Stories
 
   - As a user, I want to sign up.
