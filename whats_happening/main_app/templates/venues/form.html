@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container">
   <h2>{% if form.instance.id %}Edit Venue{% else %}Create a New Venue{% endif %}</h2>
   <form method="post" action="{% if form.instance.id %}{% url 'venue_update' form.instance.id %}{% else %}{% url 'venue_create' %}{% endif %}">
     {% csrf_token %}
@@ -8,4 +9,5 @@
     <button type="submit">{% if form.instance.id %}Update Venue{% else %}Create Venue{% endif %}</button>
   </form>
   <a href="{% url 'venue_list' %}">Cancel</a>
+</div>
 {% endblock %}

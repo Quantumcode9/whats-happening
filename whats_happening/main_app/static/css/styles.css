@@ -4,7 +4,9 @@
 body {
     background-color: #2d2d2d;
     color: #fff;
+
 }
+
 
 /* NAV & FOOTER */
 nav {
@@ -15,30 +17,89 @@ nav {
     margin-bottom: 15px;
 }
 nav a {
-    color: #fff;
-    text-decoration: none;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: #fff; 
+    font-family: 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-weight: 300;
     font-weight: bold;
     font-size: 20px;
 }
 nav a:hover {
     color: #0dec66d8;
+    transform: scale(1.1) translateY(-10px);
+    text-transform: capitalize;
+
 }
 nav .brand-logo {
     font-size: 30px;
     font-weight: 300;
     margin-left: 20px;
     color: #fff;
-    text-decoration: none;
-    display: flex; /* Allow for flex layout */
-    align-items: center; /* Align items vertically */
+    display: flex; 
+    align-items: center; 
 }
+/* side-nav  */
+
+
+
+
+.transparent-nav{
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 50px;
+    width: 250px;
+    overflow-y: auto;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    margin-top: 65px;
+}
+
+.transparent-nav li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.transparent-nav a {
+    display: block;
+    margin-top : 30px;
+    color: #fff;
+    font-family:  'Lucida Sans Unicode',  Arial, sans-serif;
+    font-weight: 300;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.transparent-nav li a {
+    transition: all 0.3s ease 0s;
+    color: #9d45c3;
+}
+
+.transparent-nav li a:hover {
+    color: #0dec66d8;
+    transform: scale(1.1) translateX(50px);
+    text-transform: capitalize;
+
+}
+
+
+.sidenav.transparent-nav li a:hover {
+    text-transform: uppercase;
+}
+
+.transparent-nav a:hover {
+    color: #0dec66d8;
+    transform: scale(1.1) translateX(50px);
+    text-transform: capitalize;
+}
+
+
 
 /* Added styling for logo link to match h1 */
 nav .brand-logo a {
     color: #fff;
-    text-decoration: none;
 }
 
 .flex-nav {
@@ -52,7 +113,7 @@ nav .brand-logo a {
     color: #fff;
     padding: 10px 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: fixed;
+    position: fixed; 
     bottom: 0;
     width: 100%;
     text-align: center;
@@ -85,7 +146,7 @@ nav .brand-logo a {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
     margin-top: 15px;
 }
 
@@ -102,6 +163,7 @@ nav .brand-logo a {
     text-align: center;
     margin-bottom: 15px;
     margin-top: 15px;
+    
 }
 
 .event-container {
@@ -132,14 +194,14 @@ nav .brand-logo a {
     font-weight: 300;
     font-size: 14px;
     margin: 0;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     
 }
 
 /* TEXT */
 h1 {
     font-family: 'Roboto', sans-serif;
-    font-weight: 300;
+    font-weight: 100;
     font-size: 40px;
     margin: 0;
 }
@@ -156,6 +218,26 @@ p {
     font-size: 20px;
     margin: 0;
 }
+
+h3 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    margin: 0;
+}
+.fixed-action-btn{
+    margin-bottom: 10px;
+    font-size: large;
+    text-transform: capitalize;
+    font-weight: 300;
+}
+
+.fixed-action-btn a {
+    color: #cdb710;
+    text-transform: capitalize;
+    font-weight: 300;
+}
+
 
 /* CARDS */
 
@@ -197,12 +279,12 @@ p {
     margin-top: 20px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease-in-out;
-    width: 400px;
-    height: auto;
-    text-align: center;
-    display: inline-block;
-    font-size: 12px;
-    overflow: hidden;
+    width: 400px; 
+    height: 300px;
+    text-align: center; 
+    display: inline-block; 
+    font-size: 12px; 
+    overflow: hidden; 
     border-radius: 5px;
     background-color: rgba(255, 255, 255, 0.1);
 }
@@ -249,7 +331,7 @@ p {
 }
 
 /* BUTTONS */
-/* go button */
+
 .top-right-fab {
     position: absolute;
     top: 10px;
@@ -257,8 +339,11 @@ p {
 }
 
 .logout-button {
-    margin-bottom: 30px;
+    top: 10px;
+    right: 10px;
+    margin-bottom: 40px;
 }
+
 
 .options a {
     display: inline-block;
@@ -277,10 +362,6 @@ input::-webkit-inner-spin-button {
     margin: 0;
 }
 
-/* Firefox */
-input[type=number] {
-    -moz-appearance: textfield;
-}
 
 /* IMAGES */
 
@@ -305,11 +386,31 @@ input[type=number] {
 /* MEDIA QUERIES */
 
 /* Footer Navbar Mobile Screens */
+
 @media screen and (max-width: 600px) {
     .page-footer a {
         display: inline-block;
         text-align: space-between;
+}
+
+.page-footer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+
+    .page-footer a i {
+        font-size: 1.5em;
+        display: block;
     }
+    
+    .page-footer a span {
+        font-size: 0.8em;
+        display: block;
+    }
+
+
 
     .tm {
         display: none;
@@ -324,6 +425,8 @@ input[type=number] {
         font-size: 16px;
     }
 
+
+
     /* Adjust the logo size for smaller screens */
     nav .brand-logo {
         font-size: 24px;
@@ -331,8 +434,14 @@ input[type=number] {
 
     .sidenav-trigger {
         display: none;
+        
     }
 
+    .fixed-action-btn {
+        top: 1px;
+        right: 1px;
+        size-adjust: 10px;
+    }
 }
 
 /* For Larger Screens */
@@ -341,14 +450,21 @@ input[type=number] {
         display: none;
     }
 
-    .navbar-fixed a {
-        display: inline-block;
-    }
+   
 }
 
 /* Adjust the font size based on screen width */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 400px) {
+    h1 {
+        font-size: 22px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+
     nav .brand-logo {
-        font-size: 24px; /* Adjust font size for smaller screens */
+        font-size: 20px;
     }
 }
+

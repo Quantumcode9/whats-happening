@@ -1,11 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Venue List</h2>
-  <ul>
+  <h1>Venue List</h1>
+  <div class="row">
     {% for venue in venues %}
-      <li><a href="{% url 'venue_detail' venue.id %}">{{ venue.name }}</a></li>
+      <div class="col s12 m6">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">{{ venue.name }}</span>
+            <p><a href="{% url 'venue_detail' venue.id %}">View Details</a></p>
+          </div>
+        </div>
+      </div>
     {% endfor %}
-  </ul>
-  <a href="{% url 'venue_create' %}">Create a New Venue</a>
-{% endblock %}
+  </div>
+  <div class="fixed-action-btn" style="bottom: 100px;">
+    <a class="btn-floating btn-large red top" href="{% url 'venue_create' %}">
+      <i class="large material-icons">add</i>
+    </a>
+    <a href="{% url 'venue_create' %}">Create a New Venue</a>
+  </div>
+
+  {% endblock %}
+
+
+
