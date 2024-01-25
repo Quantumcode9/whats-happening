@@ -87,3 +87,5 @@ Manage Venues within What's Happening:
   - As a user, I want to hide results from api search that have already been added to What's Happening.
   - As a user, I want the ability to view past events that I've created.
   - As a user, I want the ability to view past events that I had a reservation for.
+  - As a user, I want to see a YouTube video associated with the event so I can get a taste of it before deciding if I want to attend.
+  

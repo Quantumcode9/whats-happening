@@ -45,17 +45,7 @@
                 </div>
             </div>
             </div>
-            <div class="container-fluid">
-                <div class="scroll-container">
-                    <div class="d-flex">
-                        {% for image in event.images %}
-                        <div class="image-card">
-                            <img src="{{ image.url }}" alt="{{ event.name }}">
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
+
 
             <div class="row">
                 <form action="{% url 'assoc_external_reservation' %}" method="post">
@@ -83,8 +73,17 @@
                 </form>
             </div>         
 
-            
-
+            <div class="container-fluid">
+                <div class="scroll-container">
+                    <div class="d-flex">
+                        {% for image in event.images %}
+                        <div class="image-card">
+                            <img src="{{ image.url }}" alt="{{ event.name }}">
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
 
 
 {% else %}
