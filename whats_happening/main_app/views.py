@@ -239,13 +239,17 @@ def assoc_external_reservation(request):
     event.date = parse_date(request.POST["date"])
     event.time = parse_time(request.POST["time"])
     event.owner = User.objects.get(username='TheMachine')
-    event.venue = Venue.objects.get(name=request.POST["venue"])
     event.save()
     
     #get venue from api and save it to venue model
-    venue = Venue()
-    venue.name = request.POST["venue"]
-    venue.save()
+    try:
+        venue = Venue.objects.get(name=request.POST["venue"])
+    except:
+        venue = Venue()
+        venue.name = request.POST["venue"]
+        venue.save()
+        
+    event.venue = venue
 
         # Save images
         # for img in images:
