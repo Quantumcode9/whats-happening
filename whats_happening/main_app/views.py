@@ -3,25 +3,22 @@ import uuid
 import boto3
 import os
 
-
 from botocore.exceptions import NoCredentialsError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.db.models import Q
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.utils.dateparse import parse_date, parse_time
-from django.contrib.auth.models import User
 
 from .models import Event, Venue, Reservation, Profile
-from .forms import EventForm, VenueForm, SearchForm, ProfileForm 
-from .forms import PhotoForm 
+from .forms import EventForm, VenueForm
 from .models import Photo
 
 from .ticketmaster_api import get_ticketmaster_events
@@ -36,7 +33,6 @@ def about(request):
 
 def event_search(request):
     return render(request, 'events/search.html')
-
 
 def events_index(request):
     events = Event.objects.all()
@@ -197,18 +193,17 @@ class SearchResultsList(EventList):
 
 
 class DetailView(DetailView):
-  model = Event
-  template_name = 'events/detail.html'
-
+    model = Event
+    template_name = 'events/detail.html'
 
 def event_detail_model(request, event_id):
     event = Event.objects.get(id=event_id)
     try:
-      reservation = event.reservations.get(attendee=request.user)
-      print(event)
-      return render(request, 'events/detail.html', {'event': event, 'reservation': reservation})
+        reservation = event.reservations.get(attendee=request.user)
+        print(event)
+        return render(request, 'events/detail.html', {'event': event, 'reservation': reservation})
     except Reservation.DoesNotExist: 
-      return render(request, 'events/detail.html', {'event': event})
+        return render(request, 'events/detail.html', {'event': event})
 
 @login_required
 def assoc_reservation(request, event_id):
@@ -251,8 +246,7 @@ def assoc_external_reservation(request):
         
     event.venue = venue
 
-        # Save images
-        # for img in images:
+    # Save images
     photo = Photo(image_url=request.POST["photo_url"], event=event)
     photo.save()
 
@@ -280,47 +274,46 @@ def edit_reservation(request, event_id, reservation_id):
     return redirect('detail', event_id=event_id)
 
 
-
 def signup(request):
-  error_message = ''
-  if request.method == 'POST':
-    # This is how to create a 'user' form object
-    # that includes the data from the browser
-    form = UserCreationForm(request.POST)
-    if form.is_valid():
-      # This will add the user to the database
-      user = form.save()
-      # This is how we log a user in via code
-      login(request, user)
-      return redirect('home')
-    else:
-      error_message = 'Invalid sign up - try again'
-  # A bad POST or a GET request, so render signup.html with an empty form
-  form = UserCreationForm()
-  context = {'form': form, 'error_message': error_message}
-  return render(request, 'registration/signup.html', context)
+    error_message = ''
+    if request.method == 'POST':
+        # This is how to create a 'user' form object
+        # that includes the data from the browser
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            # This will add the user to the database
+            user = form.save()
+            # This is how we log a user in via code
+            login(request, user)
+            return redirect('home')
+        else:
+            error_message = 'Invalid sign up - try again'
+    # A bad POST or a GET request, so render signup.html with an empty form
+    form = UserCreationForm()
+    context = {'form': form, 'error_message': error_message}
+    return render(request, 'registration/signup.html', context)
 
-class EventCreate(CreateView):
-  model = Event
-  form_class = EventForm
-  success_url = '/events'
-  
-  def form_valid(self, form):
+
+class EventCreate(LoginRequiredMixin, CreateView):
+    model = Event
+    form_class = EventForm
+    success_url = '/events'
+    
+    def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)
-  
 
-class EventEdit(UpdateView):
+class EventEdit(LoginRequiredMixin, UpdateView):
     model = Event
     fields = ['name', 'date', 'time', 'end_time', 'venue']
     success_url = '/events'
 
-class EventDelete(DeleteView):
+class EventDelete(LoginRequiredMixin, DeleteView):
     model = Event
     success_url = '/events'
-  
-  
-  # Views for Venue
+
+
+# Views for Venue
 def venue_list(request):
     venues = Venue.objects.all()
     return render(request, 'venues/list.html', {'venues': venues})
@@ -329,6 +322,7 @@ def venue_detail(request, pk):
     venue = get_object_or_404(Venue, pk=pk)
     return render(request, 'venues/detail.html', {'venue': venue})
 
+@login_required
 def venue_create(request):
     if request.method == 'POST':
         form = VenueForm(request.POST)
@@ -340,6 +334,7 @@ def venue_create(request):
         form = VenueForm()
     return render(request, 'venues/form.html', {'form': form})
 
+@login_required
 def venue_update(request, pk):
     venue = get_object_or_404(Venue, pk=pk)
     if request.method == 'POST':
@@ -352,11 +347,13 @@ def venue_update(request, pk):
         form = VenueForm(instance=venue)
     return render(request, 'venues/form.html', {'form': form})
 
+@login_required
 def venue_delete(request, pk):
     venue = get_object_or_404(Venue, pk=pk)
     venue.delete()
     return redirect('venue_list')
 
+@login_required
 def add_event_photo(request, event_id):
     event = Event.objects.get(pk=event_id)
     photo_file = request.FILES.get('photo-file', None)
@@ -386,6 +383,7 @@ def event_hub(request):
         'my_rsvp_events': my_rsvp_events, 
         'pref_events': pref_events
     })
+
 
 class ProfileCreate(LoginRequiredMixin, CreateView):
     model = Profile
