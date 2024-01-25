@@ -30,15 +30,36 @@ Event search not only searches all the events created within What's Happening, i
   - As a user, I want to search Ticketmaster events by keyword.
   - As a user, I want to see a hub of my events so I have a one-stop shop for all my planned, rsvp'ed, and possible events.
   - As a user, I want to set a default keyword in my profile so that I can automatically see its search results in my hub.
-  - As a user, I want the ability to view past events that I've created.
-  - As a user, I want the ability to view past events that I had a reservation for.
   - As a user, I want the application to look good whether I'm on my laptop or my phone.
 
-## Wireframes
+## Screenshots
 
-<img width="600" alt="image" src="readme/photos/home-login-mockup.png">
+<!-- <img width="600" alt="image" src="readme/photos/home-login-mockup.png">
 <img width="600" alt="image" src="readme/photos/nav-mockup.png">
-<img width="400" alt="image" src="readme/photos/showpage-mockup.png">
+<img width="400" alt="image" src="readme/photos/showpage-mockup.png"> -->
+
+My Event Hub shows you:
+1. Events you are planning (with a link to create a new event)
+2. All the events you have an upcoming reservation for
+3. Search results of events you may be interested in based on your personal profile
+
+<img width="300" alt="My Event Hub" src="readme/photos/my-event-hub.png">
+
+Create an event:
+
+<img width="300" alt="Create Event" src="readme/photos/create-event.png">
+
+Search for events by keword and/or date with search results showing both events created within What's Happening plus other events found in Ticketmaster API:
+
+<img width="300" alt="Search Events" src="readme/photos/search-events.png"><img width="300" alt="Search Events" src="readme/photos/search-results.png">
+
+See the details for an event, upload photos to it, and make/change/cancel a "reservation" for that event:
+
+<img width="300" alt="Search Events" src="readme/photos/event-detail.png"><img width="400" alt="Search Events" src="readme/photos/im-going-reservation.png"><img width="400" alt="Search Events" src="readme/photos/photo-change-cancel-reservation.png">
+
+Manage Venues within What's Happening:
+
+<img width="300" alt="Search Events" src="readme/photos/venue-list.png">
 
 
 
@@ -64,3 +85,5 @@ Event search not only searches all the events created within What's Happening, i
   - As an event owner, I want to create new recurrences of my event.
   - As an event owner, I want to invite other people to my event.
   - As a user, I want to hide results from api search that have already been added to What's Happening.
+  - As a user, I want the ability to view past events that I've created.
+  - As a user, I want the ability to view past events that I had a reservation for.
