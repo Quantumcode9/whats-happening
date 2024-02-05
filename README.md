@@ -47,7 +47,7 @@ My Event Hub shows you:
 2. All the events you have an upcoming reservation for
 3. Search results of events you may be interested in based on your personal profile
 
-<img width="300" alt="My Event Hub" src="readme/photos/my-event-hub.png">
+<img width="300" alt="My Event Hub" src="readme/photos/hub.png">
 
 Create an event:
 
